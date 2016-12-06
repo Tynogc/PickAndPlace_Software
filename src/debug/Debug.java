@@ -77,6 +77,8 @@ public class Debug {
 	
 	private static Semaphore sema;
 	
+	public static comunication.FiFo fifo;
+	
 	static{
 		sema = new Semaphore(1);
 		try {
@@ -153,6 +155,10 @@ public class Debug {
 	
 	private static void print(String s, int color, boolean b){
 		if(s == null)return;
+		
+		if(fifo!=null)
+			fifo.in("/C"+s+"%"+color);
+		
 		if(!b)
 		theLineBefor+=s;
 		
@@ -192,6 +198,10 @@ public class Debug {
 	
 	public static void println(String s, int color){
 		if(s == null)return;
+		
+		if(fifo!=null)
+			fifo.in("/N"+s+"%"+color);
+		
 		try {
 			sema.acquire();
 		} catch (InterruptedException e) {

@@ -4,8 +4,8 @@ public class StartUp {
 	
 	private debug.DebugFrame frame;
 	
-	private boolean spectator;
-	private boolean fullScreen;
+	private boolean spectator = false;
+	private boolean fullScreen = true;
 	
 	public StartUp(debug.DebugFrame f){
 		frame = f;

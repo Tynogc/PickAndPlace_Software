@@ -112,6 +112,8 @@ public class SeyprisMain extends JPanel{
 		if(playAnimation)
 			anim = new StartAnimation(true);
 		
+		debug.Debug.fifo = new comunication.Server().send;
+		
 		setVisible(true);
 		frame.setVisible(true);
 		
@@ -155,7 +157,7 @@ public class SeyprisMain extends JPanel{
 			if(anim.uppdate())
 				anim = null;
 			else
-				anim.paint(g, sizeX()/2, sizeY()/2);
+				anim.paint(g, sizeX()/2-185, sizeY()/2-150);
 		}else if(!gui.loop());
 			//clickedOn.loop(player.xPos-playerOffsetX, player.yPos-playerOffsetY);
 		PerformanceMenu.markTime(PerformanceMenu.UpdateGui);
