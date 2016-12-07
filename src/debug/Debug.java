@@ -156,7 +156,7 @@ public class Debug {
 	private static void print(String s, int color, boolean b){
 		if(s == null)return;
 		
-		if(fifo!=null)
+		if(fifo!=null && !b)
 			fifo.in("/C"+s+"%"+color);
 		
 		if(!b)

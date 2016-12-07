@@ -25,7 +25,7 @@ public class GuiControle {
 	
 	private ToolTip toolTip;
 	
-	public GuiControle(main.MouseListener m, boolean observer){
+	public GuiControle(main.MouseListener m, main.KeyListener k, boolean observer){
 		mouse = m;
 		topMenu = new MenuControle();
 		debugMenu = new MenuControle();
@@ -39,6 +39,7 @@ public class GuiControle {
 			dbm.xPos = 10;
 			dbm.yPos = 500;
 			debugMenu.setActivMenu(dbm);
+			topMenu.setActivMenu(new comunication.LinkedInMenu(k));
 		}else{
 			bottomMenu = new MenuControle();
 			sideMenu = new MenuControle();

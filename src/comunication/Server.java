@@ -17,6 +17,7 @@ public class Server extends Thread{
 			server = new ServerSocket(3637);//TODO load Port
 		} catch (IOException e) {
 			debug.Debug.printExeption(e);
+			return;
 		}
 		start();
 	}
@@ -29,6 +30,7 @@ public class Server extends Thread{
 				debug.Debug.printExeption(e);
 			}
 			send.setEnable(false);
+			debug.Debug.println("* Observer Closed", debug.Debug.COMERR);
 		}
 	}
 	
@@ -42,7 +44,6 @@ public class Server extends Thread{
 			if(send.contains()){
 				p.println(send.out());
 				if(p.checkError()){
-					debug.Debug.println("* Observer Closed "+socket.getInetAddress(), debug.Debug.COMERR);
 					break;
 				}
 			}else{

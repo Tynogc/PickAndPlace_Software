@@ -103,16 +103,19 @@ public class SeyprisMain extends JPanel{
 		frame.addMouseMotionListener(mouse);
 		frame.addMouseWheelListener(mouse);
 		
-		new MenuStorage();
-		gui = new GuiControle(mouse, observer);
-		GuiControle.setMiddleMenu(MenuStorage.overview);
+		gui = new GuiControle(mouse, key, observer);
+		if(!observer){
+			new MenuStorage();
+			GuiControle.setMiddleMenu(MenuStorage.overview);
+		}
 		
 		new status.StatusControle();
 		
 		if(playAnimation)
 			anim = new StartAnimation(true);
 		
-		debug.Debug.fifo = new comunication.Server().send;
+		if(!observer)
+			debug.Debug.fifo = new comunication.Server().send;
 		
 		setVisible(true);
 		frame.setVisible(true);
