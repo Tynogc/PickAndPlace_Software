@@ -25,11 +25,69 @@ public class PartPlacement {
 	
 	private PicturClient pictureClient;
 	
+	private PicProcessingStatLoader values;
+	
 	public PartPlacement(){
+		debug.Debug.println(" Building Pic-Processing");
 		sema = new Semaphore(1);
 		
 		pictureClient = new PicturClient(this);
+		
+		values = new PicProcessingStatLoader();
+		debug.Debug.bootMsg(" Loading Values", values.getState());
 	}
+	
+	public void processImage(){
+		//TODO!!!!
+		try {
+			File outputfile = new File("test3.png");
+			ImageIO.write(imageToProcess, "png", outputfile);
+		} catch (Exception e) {
+			// TODO: handle exception
+		}
+		
+		debug.Debug.println("Starting Process");
+		imageToProcess = Filter.colorFilter(imageToProcess, new Color(80,255,255), 100);
+		lastImageProcessed = imageToProcess;
+		imageToProcess = Filter.amplifyContrast(imageToProcess, 50, 3);
+		EdgeDetector ed = new EdgeDetector(EdgeDetector.UP, 50);
+		Point[][] p;
+		Point[][] p1;
+		Point[][] p2;
+		Point[][] p3;
+		try {
+			p = ed.getEdgeFrome(imageToProcess);
+			ed = new EdgeDetector(EdgeDetector.LEFT, 50);
+			p1 = ed.getEdgeFrome(imageToProcess);
+			ed = new EdgeDetector(EdgeDetector.DOWN, 50);
+			p2 = ed.getEdgeFrome(imageToProcess);
+			ed = new EdgeDetector(EdgeDetector.RIGHT, 50);
+			p3 = ed.getEdgeFrome(imageToProcess);
+			
+		} catch (Exception e) {
+			debug.Debug.printExeption(e);
+			return;
+		}
+		debug.Debug.println("Done!");
+		try {
+			sema.acquire();
+		} catch (InterruptedException e) {
+			e.printStackTrace();
+		}
+		try {
+			ed.drawEdges(lastImageProcessed, p);
+			ed.drawEdges(lastImageProcessed, p1);
+			ed.drawEdges(lastImageProcessed, p2);
+			ed.drawEdges(lastImageProcessed, p3);
+		} catch (Exception e) {
+			sema.release();
+			debug.Debug.printExeption(e);
+			return;
+		}
+		sema.release();
+	}
+	////////////////////////////////////////////////////////////////////////////////////////////////
+	////////////////////////////////////////////////////////////////////////////////////////////////
 	
 	public void paintUnProcessed(Graphics g, int x, int y){
 		try {
@@ -140,56 +198,6 @@ public class PartPlacement {
 		debug.Debug.println("*Running Process-Test with "+filepath);
 		if(imo.getIconHeight()>10)
 			pictureClient.needProcess();
-	}
-	
-	public void processImage(){
-		//TODO!!!!
-		try {
-			File outputfile = new File("test3.png");
-			ImageIO.write(imageToProcess, "png", outputfile);
-		} catch (Exception e) {
-			// TODO: handle exception
-		}
-		
-		debug.Debug.println("Starting Process");
-		imageToProcess = Filter.colorFilter(imageToProcess, new Color(80,255,255), 100);
-		lastImageProcessed = imageToProcess;
-		imageToProcess = Filter.amplifyContrast(imageToProcess, 50, 3);
-		EdgeDetector ed = new EdgeDetector(EdgeDetector.UP, 50);
-		Point[][] p;
-		Point[][] p1;
-		Point[][] p2;
-		Point[][] p3;
-		try {
-			p = ed.getEdgeFrome(imageToProcess);
-			ed = new EdgeDetector(EdgeDetector.LEFT, 50);
-			p1 = ed.getEdgeFrome(imageToProcess);
-			ed = new EdgeDetector(EdgeDetector.DOWN, 50);
-			p2 = ed.getEdgeFrome(imageToProcess);
-			ed = new EdgeDetector(EdgeDetector.RIGHT, 50);
-			p3 = ed.getEdgeFrome(imageToProcess);
-			
-		} catch (Exception e) {
-			debug.Debug.printExeption(e);
-			return;
-		}
-		debug.Debug.println("Done!");
-		try {
-			sema.acquire();
-		} catch (InterruptedException e) {
-			e.printStackTrace();
-		}
-		try {
-			ed.drawEdges(lastImageProcessed, p);
-			ed.drawEdges(lastImageProcessed, p1);
-			ed.drawEdges(lastImageProcessed, p2);
-			ed.drawEdges(lastImageProcessed, p3);
-		} catch (Exception e) {
-			sema.release();
-			debug.Debug.printExeption(e);
-			return;
-		}
-		sema.release();
 	}
 	
 }

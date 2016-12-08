@@ -48,7 +48,7 @@ public class Settings {
 				if(s.length()<1)break;
 				str[i] = s;
 			}
-		    debug.Debug.println(" Rover settings: "+i+" Lines loaded!");
+		    debug.Debug.println(" System settings: "+i+" Lines loaded!");
 		    
 		    br.close();
 			}catch (FileNotFoundException e) {
