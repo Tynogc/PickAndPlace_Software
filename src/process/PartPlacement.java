@@ -129,7 +129,7 @@ public class PartPlacement {
 	public void processImage(){
 		//TODO!!!!
 		try {
-			File outputfile = new File("test.png");
+			File outputfile = new File("test3.png");
 			ImageIO.write(imageToProcess, "png", outputfile);
 		} catch (Exception e) {
 			// TODO: handle exception

@@ -224,6 +224,7 @@ public class PicturClient extends Thread{
 			String[] st = s.split("x");
 			w = Integer.parseInt(st[0]);
 			h = Integer.parseInt(st[1]);
+			System.out.println(w+" "+h);
 		} catch (Exception e) {
 			return false;
 		}
