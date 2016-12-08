@@ -29,7 +29,7 @@ public class FootprintPainter {
 		xSize*=2;
 		ySize*=2;
 		
-		buffer = new BufferedImage(xSize+10, ySize+10, BufferedImage.TYPE_INT_ARGB);
+		buffer = new BufferedImage(xSize, ySize, BufferedImage.TYPE_INT_ARGB);
 		Graphics g = buffer.getGraphics();
 		g.translate(buffer.getWidth()/2, buffer.getHeight()/2);
 				

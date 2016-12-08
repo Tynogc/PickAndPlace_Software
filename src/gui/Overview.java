@@ -11,6 +11,7 @@ import status.StatusControle;
 import main.SeyprisMain;
 import menu.AbstractMenu;
 import menu.DataFiled;
+import menu.TextEnterButton;
 
 public class Overview extends AbstractMenu{
 
@@ -23,7 +24,7 @@ public class Overview extends AbstractMenu{
 	
 	private DataFiled[] spindel;
 	
-	public Overview() {
+	public Overview(main.KeyListener k) {
 		super(0,70,SeyprisMain.sizeX()-300, SeyprisMain.sizeY()-100);
 		moveAble = false;
 		
@@ -119,6 +120,13 @@ public class Overview extends AbstractMenu{
 		add(pcb2stat);
 		
 		pp = new process.PartPlacement();
+		
+		add(new TextEnterButton(700,100,100,20,Color.white,k) {
+			@Override
+			protected void textEntered(String text) {
+				pp.runTest(text);				
+			}
+		});
 	}
 
 	@Override

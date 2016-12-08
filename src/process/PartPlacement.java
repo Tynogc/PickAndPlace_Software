@@ -7,6 +7,7 @@ import java.io.File;
 import java.util.concurrent.Semaphore;
 
 import javax.imageio.ImageIO;
+import javax.swing.ImageIcon;
 
 import process.image.EdgeDetector;
 import process.image.Filter;
@@ -124,6 +125,21 @@ public class PartPlacement {
 		imageToProcess = b;
 		lastImageProcessed = b;
 		sema.release();
+	}
+	
+	public void runTest(String filepath){
+		try {
+			sema.acquire();
+		} catch (InterruptedException e) {
+			e.printStackTrace();
+		}
+		ImageIcon imo = new ImageIcon(filepath);
+		imageToProcess = new BufferedImage(imo.getIconWidth(), imo.getIconHeight(), BufferedImage.TYPE_INT_ARGB);
+		imageToProcess.getGraphics().drawImage(imo.getImage(), 0, 0, null);
+		sema.release();
+		debug.Debug.println("*Running Process-Test with "+filepath);
+		if(imo.getIconHeight()>10)
+			pictureClient.needProcess();
 	}
 	
 	public void processImage(){

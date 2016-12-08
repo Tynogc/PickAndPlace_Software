@@ -107,7 +107,7 @@ public class SeyprisMain extends JPanel{
 		
 		gui = new GuiControle(mouse, key, observer);
 		if(!observer){
-			new MenuStorage();
+			new MenuStorage(key);
 			GuiControle.setMiddleMenu(MenuStorage.overview);
 		}
 		

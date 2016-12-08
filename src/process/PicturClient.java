@@ -28,6 +28,8 @@ public class PicturClient extends Thread{
 	
 	public int refreschRate;
 	
+	private boolean runProcess;
+	
 	static{
 		System.loadLibrary(Core.NATIVE_LIBRARY_NAME); 
 	}
@@ -123,6 +125,10 @@ public class PicturClient extends Thread{
 				} catch (Exception e) {
 					debug.Debug.printExeption(e);
 				}
+			}else if(runProcess){
+				runProcess = false;
+				sema.release();
+				pp.processImage();
 			}else{
 				sema.release();
 				i+=10;
@@ -231,5 +237,15 @@ public class PicturClient extends Thread{
 		
 		return v.set(Highgui.CV_CAP_PROP_FRAME_WIDTH, w) 
 				&& v.set(Highgui.CV_CAP_PROP_FRAME_HEIGHT, h);
+	}
+	
+	public void needProcess(){
+		try {
+			sema.acquire();
+		} catch (InterruptedException e) {
+			debug.Debug.printExeption(e);
+		}
+		runProcess = true;
+		sema.release();
 	}
 }
