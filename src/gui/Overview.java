@@ -129,9 +129,9 @@ public class Overview extends AbstractMenu{
 
 	@Override
 	protected void paintIntern(Graphics g) {
-		pp.paintUnProcessed(g, 30, 500);
-		//pp.paintProcessed(g, 630, 500);
-		pp.paintTDCamera(g, 630, 500);
+		pp.paintViewer(g, 630, 500);
+		pp.paintUnProcessed(g, 30, 0);
+		pp.paintProcessed(g, 800, 0);
 		
 		if(fpp != null)
 			g.drawImage(fpp.buffer, 30, 30, null);

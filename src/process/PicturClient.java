@@ -22,10 +22,11 @@ public class PicturClient extends Thread{
 	private Mat matrix[];
 	private BufferedImage[] oldImages;
 	
-	private int topDownCamera = 1;
-	private int partPlacementCamera = 2;
+	private int topDownCamera;
+	private int partPlacementCamera;
+	private int viewerCamera;
 	
-	public int refreschRate = 60;
+	public int refreschRate;
 	
 	static{
 		System.loadLibrary(Core.NATIVE_LIBRARY_NAME); 
@@ -37,18 +38,38 @@ public class PicturClient extends Thread{
 		vc = new VideoCapture[3];
 		matrix = new Mat[3];
 		oldImages = new BufferedImage[3];
+		
+		topDownCamera = main.Settings.CAMERA_TOP_DOWN;
+		partPlacementCamera = main.Settings.CAMERA_PARTS;
+		viewerCamera = main.Settings.CAMERA_VIEWER;
+		
 		for (int i = 0; i < matrix.length; i++) {
 			openVc(i);
 		}
 		main.ExitThread.vcs = vc;
 		requested = -1;
 		setName("Camera Thread");
+		
+		refreschRate = main.Settings.CAMERA_REDRAW_TIME;
+		
 		start();
 	}
 	
 	private void openVc(int i){
 		debug.Debug.println("* Trying to Acsess Camera with ID:"+i);
 		vc[i] = new VideoCapture(i);
+		boolean size = false;
+		boolean used = true;
+		if(i == topDownCamera){
+			size = setSize(vc[i], main.Settings.CAMERA_TD_RESOLUTION);
+		}else if(i == partPlacementCamera){
+			size = setSize(vc[i], main.Settings.CAMERA_PP_RESOLUTION);
+		}else if(i == viewerCamera){
+			size = setSize(vc[i], main.Settings.CAMERA_VW_RESOLUTION);
+		}else{
+			used = false;
+		}
+		
 		matrix[i] = new Mat();
 		vc[i].read(matrix[i]);
 		vc[i].set(Highgui.CV_CAP_PROP_BUFFERSIZE, 1);
@@ -61,7 +82,15 @@ public class PicturClient extends Thread{
 			e.printStackTrace();
 		}
 		if(vc[i].isOpened()){
-			debug.Debug.print(" DONE", debug.Debug.MASSAGE);
+			if(!used){
+				vc[i].release();
+				vc[i] = null;
+				debug.Debug.print(" UNUSED", debug.Debug.ERROR);
+			}else if(!size){
+				debug.Debug.print(" WARN", debug.Debug.WARN);
+			}else{
+				debug.Debug.print(" DONE", debug.Debug.MASSAGE);
+			}
 		} else{
 			debug.Debug.print(" ERROR", debug.Debug.ERROR);
 			vc[i].release();
@@ -103,6 +132,7 @@ public class PicturClient extends Thread{
 					try {
 						loadImage(topDownCamera, false);
 						loadImage(partPlacementCamera, false);
+						loadImage(viewerCamera, false);
 					} catch (InterruptedException e) {
 						debug.Debug.printExeption(e);
 					}
@@ -162,6 +192,8 @@ public class PicturClient extends Thread{
 			oldImages[i] = pp.recivedPicTopDown(im);
 		}else if(i == partPlacementCamera){
 			oldImages[i] = pp.recivedPicPlacement(im);
+		}else if(i == viewerCamera){
+			oldImages[i] = pp.recivedViewer(im);
 		}
 	}
 	
@@ -184,4 +216,19 @@ public class PicturClient extends Thread{
         
         return tr;
     }
+	
+	private boolean setSize(VideoCapture v, String s){
+		int h;
+		int w;
+		try {
+			String[] st = s.split("x");
+			w = Integer.parseInt(st[0]);
+			h = Integer.parseInt(st[1]);
+		} catch (Exception e) {
+			return false;
+		}
+		
+		return v.set(Highgui.CV_CAP_PROP_FRAME_WIDTH, w) 
+				&& v.set(Highgui.CV_CAP_PROP_FRAME_HEIGHT, h);
+	}
 }

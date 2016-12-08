@@ -31,8 +31,9 @@ public class EdgeDetector {
 		for (int i = 0; i < p.length; i++) {
 			if(p[i]!=null)
 			for (int j = 0; j < p[i].length; j++) {
+				if(p[i][j]==null)return;
 				g.drawRect(p[i][j].x, p[i][j].y, 0, 0);
-				if(j == -1){
+				if(j == 0){
 					g.drawLine(p[i][j].x, p[i][j].y-10, p[i][j].x, p[i][j].y+10);
 					g.drawLine(p[i][j].x+10, p[i][j].y, p[i][j].x-10, p[i][j].y);
 				}

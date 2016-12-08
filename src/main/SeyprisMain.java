@@ -39,7 +39,7 @@ public class SeyprisMain extends JPanel{
 	public final int playerOffsetX;
 	public final int playerOffsetY;
 	
-	public static final int fpsMultiplier = 2;
+	public static final int fpsMultiplier = 1;
 	
 	public static final int tileSize = 16;
 	
@@ -65,19 +65,21 @@ public class SeyprisMain extends JPanel{
 		dbf.setDefaultCloseOperation(JFrame.EXIT_ON_CLOSE);
 		Fonts.createAllFonts();
 		
+		debug.Debug.println("* Starting Seypris 0.0.1");
+		
 		startUp = new StartUp(dbf);
 		startUp.doStartUp();
 		if(observer){
 			size = new FrameSize(620,750);
 		}
 		
+		debug.Debug.bootMsg("Settings", Settings.load());
+		
 		frame = new JFrame();
 		frame.setBounds(10, 10, sizeX(), sizeY());
 		setBounds(10, 10, sizeX(), sizeY());
 		//frame.add(this);
 		frame.setDefaultCloseOperation(JFrame.EXIT_ON_CLOSE);
-		
-		debug.Debug.println("* Starting Seypris 0.0.1");
 		
 		new PicLoader();
 		
@@ -156,12 +158,7 @@ public class SeyprisMain extends JPanel{
 		PerformanceMenu.markTime(PerformanceMenu.PlayerAndMap);
 		
 		PerformanceMenu.markTime(PerformanceMenu.NPCmovement);
-		if(anim != null){
-			if(anim.uppdate())
-				anim = null;
-			else
-				anim.paint(g, sizeX()/2-185, sizeY()/2-150);
-		}else if(!gui.loop());
+		if(!gui.loop());
 			//clickedOn.loop(player.xPos-playerOffsetX, player.yPos-playerOffsetY);
 		PerformanceMenu.markTime(PerformanceMenu.UpdateGui);
 
@@ -169,6 +166,12 @@ public class SeyprisMain extends JPanel{
 		
 		PerformanceMenu.markTime(PerformanceMenu.PaintEntity);
 		gui.paint(g);
+		if(anim != null){
+			if(anim.uppdate())
+				anim = null;
+			else
+				anim.paint(g, sizeX()/2-185, sizeY()/2-150);
+		}
 		PerformanceMenu.markTime(PerformanceMenu.PaintGui);
 		
 		mouse.leftClicked = false;

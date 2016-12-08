@@ -1,0 +1,13 @@
+---Cameras---
+ID of Part-Pickup-Viewer : 1
+ID of Top-Down : 0
+ID of Viewer-Camera : 1
+-Cameras: Repaint-
+Update Delay (ms) : 100
+Update Top Down : 0
+Update PartPlacement : 0
+Update Viewer : 0
+-Cameras: Resulution-
+Top Down : 1080x720
+Part Placement : 1080x720
+Viewer (Do not change!) : 640x480
