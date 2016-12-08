@@ -16,6 +16,8 @@ public class PicProcessingStatLoader {
 	
 	public final int[][] offsetValues;
 	
+	public final double scaling;
+	
 	private static final String filepath = "res/camera_setup.set";
 	
 	private boolean err;
@@ -75,14 +77,24 @@ public class PicProcessingStatLoader {
 		cornerNumber = g;
 		offsetValues = new int[4][2];
 		try {
-			offsetValues[0] = uli(str[4]);
-			offsetValues[1] = uli(str[5]);
-			offsetValues[2] = uli(str[6]);
-			offsetValues[3] = uli(str[7]);
+			offsetValues[0] = uli(str[5]);
+			offsetValues[1] = uli(str[6]);
+			offsetValues[2] = uli(str[7]);
+			offsetValues[3] = uli(str[8]);
 		} catch (Exception e) {
 			debug.Debug.println("Positioning Format wrong!", debug.Debug.WARN);
 			war = true;
 		}
+		
+		double d = 1.0;
+		try {
+			s = str[3].split(": ");
+			d = Double.parseDouble(s[1]);
+		} catch (Exception e) {
+			debug.Debug.println("Scaling format wronng!", debug.Debug.WARN);
+			war = true;
+		}
+		scaling = d;
 	}
 	
 	private int[] uli(String st){
@@ -95,6 +107,11 @@ public class PicProcessingStatLoader {
 	
 	public void saveFilterColor(Color c){
 		str[1] = "Null-Color: "+c.getRed()+" "+c.getGreen()+" "+c.getBlue();
+		save();
+	}
+	
+	public void saveScaling(double s){
+		str[3] = "Scaling mm to pixel: "+s;
 		save();
 	}
 	

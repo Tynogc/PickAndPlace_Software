@@ -34,7 +34,7 @@ public class PartPlacement {
 		pictureClient = new PicturClient(this);
 		
 		values = new PicProcessingStatLoader();
-		debug.Debug.bootMsg(" Loading Values", values.getState());
+		debug.Debug.bootMsg(" Values", values.getState());
 	}
 	
 	public void processImage(){
