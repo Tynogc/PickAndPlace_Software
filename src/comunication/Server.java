@@ -10,6 +10,7 @@ public class Server extends Thread{
 	public ServerSocket server;
 	
 	public static FiFo send;
+	private Socket[] sokets;
 	
 	public Server(){
 		send = new FiFo();
