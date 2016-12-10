@@ -128,7 +128,11 @@ public class PicturClient extends Thread{
 			}else if(runProcess){
 				runProcess = false;
 				sema.release();
-				pp.processImage();
+				try {
+					pp.processImage();
+				} catch (Exception e) {
+					debug.Debug.printExeption(e);
+				}
 			}else{
 				sema.release();
 				i+=10;

@@ -14,6 +14,9 @@ public class FootprintPainter {
 	private int xSize;
 	private int ySize;
 	
+	public final int middleX;
+	public final int middleY;
+	
 	public FootprintPainter(Footprint p, double scale, boolean fill, Color c){
 		color = c;
 		fillMode = fill;
@@ -22,9 +25,11 @@ public class FootprintPainter {
 		xSize = size[0]*2;
 		ySize = size[1]*2;
 		
-		buffer = new BufferedImage(xSize+2, ySize+2, BufferedImage.TYPE_INT_ARGB);
+		buffer = new BufferedImage(xSize+3, ySize+3, BufferedImage.TYPE_INT_ARGB);
 		Graphics g = buffer.getGraphics();
-		g.translate(buffer.getWidth()/2, buffer.getHeight()/2);
+		middleX = buffer.getWidth()/2;
+		middleY = buffer.getHeight()/2;
+		g.translate(middleX, middleY);
 				
 		PadList pad = p.pads;
 		do {
@@ -39,17 +44,6 @@ public class FootprintPainter {
 		int[][] xyi = FootprintSize.getPadPosition(p, s);
 		int[] xi = xyi[0];
 		int[] yi = xyi[1];
-		
-		if(g == null){
-			for (int i = 0; i < yi.length; i++) {
-				if(Math.abs(xi[i])>xSize)
-					xSize = Math.abs(xi[i]);
-				if(Math.abs(yi[i])>ySize)
-					ySize = Math.abs(yi[i]);
-			}
-			
-			return;
-		}
 		
 		Polygon poly = new Polygon(xi,yi,4);
 		g.setColor(color);

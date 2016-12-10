@@ -28,7 +28,7 @@ public class Overview extends AbstractMenu{
 		super(0,70,SeyprisMain.sizeX()-300, SeyprisMain.sizeY()-100);
 		moveAble = false;
 		
-		pcb1stat = new DataFiled(300,300,100,20,Color.black) {
+		pcb1stat = new DataFiled(300,500,100,20,Color.black) {
 			int i = -256;
 			@Override
 			protected void uppdate() {
@@ -74,7 +74,7 @@ public class Overview extends AbstractMenu{
 			}
 		};
 		add(pcb1stat);
-		pcb2stat = new DataFiled(500,300,100,20,Color.black) {
+		pcb2stat = new DataFiled(500,500,100,20,Color.black) {
 			int i = -256;
 			@Override
 			protected void uppdate() {
@@ -138,7 +138,7 @@ public class Overview extends AbstractMenu{
 	@Override
 	protected void paintIntern(Graphics g) {
 		pp.paintViewer(g, 630, 500);
-		pp.paintUnProcessed(g, 30, 0);
+		pp.paintSpindel(g, 30, 0);
 		pp.paintProcessed(g, 800, 0);
 		
 		if(fpp != null)

@@ -31,7 +31,7 @@ public class EdgeDetector {
 		for (int i = 0; i < p.length; i++) {
 			if(p[i]!=null)
 			for (int j = 0; j < p[i].length; j++) {
-				if(p[i][j]==null)return;
+				if(p[i][j]==null)continue;
 				g.drawRect(p[i][j].x, p[i][j].y, 0, 0);
 				if(j == 0){
 					g.drawLine(p[i][j].x, p[i][j].y-10, p[i][j].x, p[i][j].y+10);
@@ -44,12 +44,15 @@ public class EdgeDetector {
 	public double getAngleToY(Point[][] p){
 		double d = 0.0;
 		int amount = 0;
-		for (int i = 0; i < p.length; i++) {
+		for (int i = 0; i < p[0].length; i++) {
 			try{
-				d+=getAngleToYIntern(p, i);
+				double f = getAngleToYIntern(p, i);
+				System.out.println(Math.toDegrees(f));
+				d+=f;
 				amount++;
 			}catch (NullPointerException e) {
 				failedPoints++;
+				System.out.println("null");
 			}
 		}
 		System.out.println(amount);
@@ -57,7 +60,7 @@ public class EdgeDetector {
 	}
 	
 	private double getAngleToYIntern(Point[][] p, int i) throws NullPointerException{
-		if(p.length<3){
+		if(p.length<4){
 			return new Vector(p[0][i], p[1][i]).getAngleToY();
 		}
 		Vector[] v = new Vector[]{
@@ -73,9 +76,18 @@ public class EdgeDetector {
 	}
 	
 	public Point[][] getEdgeFrome(BufferedImage ima){
+		return getEdgeFrome(ima, true);
+	}
+	
+	public Point[][] getEdgeFrome(BufferedImage ima, boolean degree45){
+		if(degree45)
 		return new Point[][]{
 				raster45(ima, dirr),
 				raster45(ima, dirr+INVERT),
+				raster27(ima, dirr),
+				raster27(ima, dirr+INVERT)
+		};
+		return new Point[][]{
 				raster27(ima, dirr),
 				raster27(ima, dirr+INVERT)
 		};
@@ -108,13 +120,13 @@ public class EdgeDetector {
 	}
 	
 	public Point[] getClosePoints(int i, int j, BufferedImage img, int d){
-		Point[] p = new Point[4];
+		Point[] p = new Point[40];
 		int[] q = convert(i, j, img, d);
 		p[0] = new Point(q[0], q[1]);
 		
-		int size = getSizeJ(img);
+		//int size = getSizeJ(img);
 		for (int k = 1; k < p.length; k++) {
-			for (int l = 0; l < size; l++) {
+			for (int l = j-30; l < j+30; l++) {
 				q = convert(i+k, l, img, d);
 				if(searchPic(i+k, l, img, d)){
 					q = convert(i+k, l, img, d);
@@ -179,11 +191,11 @@ public class EdgeDetector {
 		case UP:
 			return r;
 		case DOWN:
-			return -r;
+			return r;
 		case LEFT:
-			return Math.PI/4-r;
+			return -Math.PI/2+r;
 		case RIGHT:
-			return -Math.PI/4+r;
+			return -Math.PI/2+r;
 		default:
 			return Double.NaN;
 		}

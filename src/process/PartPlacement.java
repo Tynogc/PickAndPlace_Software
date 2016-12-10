@@ -26,6 +26,7 @@ public class PartPlacement {
 	private PicturClient pictureClient;
 	
 	private PicProcessingStatLoader values;
+	private Spindel spindel;
 	
 	public PartPlacement(){
 		debug.Debug.println(" Building Pic-Processing");
@@ -35,9 +36,14 @@ public class PartPlacement {
 		
 		values = new PicProcessingStatLoader();
 		debug.Debug.bootMsg(" Values", values.getState());
+		
+		spindel = new Spindel();
 	}
 	
 	public void processImage(){
+		
+		spindel.processImage(imageToProcess, 255, 360, values);
+		
 		//TODO!!!!
 		try {
 			File outputfile = new File("test3.png");
@@ -131,6 +137,10 @@ public class PartPlacement {
 		if(lastImageViewerCamera != null)
 			g.drawImage(lastImageViewerCamera, x, y, null);
 		sema.release();
+	}
+	
+	public void paintSpindel(Graphics g, int x, int y){
+		spindel.paintVisu(g, x, y);
 	}
 	
 	public void request(){
