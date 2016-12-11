@@ -16,8 +16,11 @@ public class Vector {
 	}
 	
 	public double getAngleToY(){
-		if(p1.x == p2.x)
-			return 0.0;
+		if(p1.x == p2.x){
+			if(p1.y == p2.y)
+				return 0.0;
+			return Math.PI/2;
+		}
 		double d = (double)(p2.y-p1.y)/(double)(p2.x-p1.x);
 		return Math.atan(d);
 	}

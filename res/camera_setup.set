@@ -1,7 +1,7 @@
 //Picture Processing
 Null-Color: 80 255 255
 Contrast: 100 CornerNumber: 3
-Scaling mm to pixel: 150.0
+Scaling mm to pixel: 15.0
 //Spindel: Center of Rotation in Pixel
 1> x: 0 y: 0
 2> x: 0 y: 0

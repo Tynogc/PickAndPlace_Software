@@ -69,8 +69,8 @@ public class Overview extends AbstractMenu{
 			@Override
 			protected void isClicked() {
 				fpp = new FootprintPainter(
-						new components.kiCad.KiCadFileImport(new File("SSOP1.kicad_mod")).footprint
-						,10,false,Color.red);
+						new components.kiCad.KiCadFileImport(new File("PLCC-44.kicad_mod")).footprint
+						,13.0,false,Color.red);
 			}
 		};
 		add(pcb1stat);

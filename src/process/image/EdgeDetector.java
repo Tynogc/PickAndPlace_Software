@@ -25,7 +25,7 @@ public class EdgeDetector {
 		delta = del;
 	}
 	
-	public void drawEdges(BufferedImage img, Point[][] p){
+	public static void drawEdges(BufferedImage img, Point[][] p){
 		Graphics g = img.getGraphics();
 		g.setColor(Color.green);
 		for (int i = 0; i < p.length; i++) {
@@ -44,6 +44,8 @@ public class EdgeDetector {
 	public double getAngleToY(Point[][] p){
 		double d = 0.0;
 		int amount = 0;
+		if(p[0] == null)
+			return 0.0;
 		for (int i = 0; i < p[0].length; i++) {
 			try{
 				double f = getAngleToYIntern(p, i);

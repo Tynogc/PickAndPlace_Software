@@ -3,11 +3,14 @@ package process.image;
 import java.awt.Color;
 import java.awt.Graphics;
 import java.awt.Graphics2D;
+import java.awt.RenderingHints;
 import java.awt.image.BufferedImage;
 
 import process.PicProcessingStatLoader;
 import process.Spindel;
+import utility.VectorAdvanced;
 import components.FootprintDetectionHints;
+import components.FootprintPainter;
 
 public class PartDetector {
 
@@ -20,6 +23,7 @@ public class PartDetector {
 	
 	public double cgX;
 	public double cgY;
+	public double rotation;
 	
 	public PartDetector(int centerRotX, int centerRotY){
 		crX = centerRotX;
@@ -53,20 +57,68 @@ public class PartDetector {
 			}
 		}
 		r /= i;
+		rotation  = r;
 		System.out.println("G "+Math.toDegrees(r));
 		debug.Debug.println(" Angle: "+Math.toDegrees(r));
 		imProcessedToShow = new BufferedImage(imToShow.getWidth(), imToShow.getHeight(), BufferedImage.TYPE_INT_ARGB);
 		Graphics2D g2d = (Graphics2D)imProcessedToShow.getGraphics();
 		g2d.translate(crX, crY);
+		g2d.setRenderingHint(RenderingHints.KEY_INTERPOLATION, RenderingHints.VALUE_INTERPOLATION_BICUBIC);
 		g2d.rotate(-r);
 		g2d.drawImage(imToShow, -crX, -crY, null);
+		
+		int[] cmg = CgDetector.getAdvCG(imProcessedToShow, 50);
+		
+		PicturFpComparison pfc = new PicturFpComparison(f.fp, pps.scaling, cmg[0], cmg[1]);
+		pfc.search(imProcessedToShow, PicturFpComparison.UP_DOWN, 50);
+		pfc.search(imProcessedToShow, PicturFpComparison.LEFT_RIGHT, 50);
+		pfc.search(imProcessedToShow, PicturFpComparison.UP_DOWN, 50);
+		pfc.search(imProcessedToShow, PicturFpComparison.LEFT_RIGHT, 50);
+		
+		FootprintPainter fpp = new FootprintPainter(f.fp, pps.scaling, false, Color.red);
+		
+		//1st painting:
 		g2d.rotate(r);
-		g2d.setColor(Color.green);
-		g2d.drawRect(-1, -1, 2, 2);
+		g2d.setColor(Color.yellow);
+		g2d.drawLine(-10, 0, 10, 0);
+		g2d.drawLine(0, -10, 0, 10);
 		g2d.translate(-crX, -crY);
 		g2d.setColor(new Color(100,100,100,100));
 		for (int j = 0; j < im.getHeight(); j+=5) {
 			g2d.drawLine(0, j, im.getWidth(), j);
 		}
+		g2d.setColor(Color.blue);
+		g2d.drawLine(-10+cmg[0], cmg[1], 10+cmg[0], cmg[1]);
+		g2d.drawLine(cmg[0], -10+cmg[1], cmg[0], 10+cmg[1]);
+		cmg[0] = pfc.xPos;
+		cmg[1] = pfc.yPos;
+		g2d.setColor(Color.red);
+		g2d.drawLine(-10+cmg[0], cmg[1], 10+cmg[0], cmg[1]);
+		g2d.drawLine(cmg[0], -10+cmg[1], cmg[0], 10+cmg[1]);
+		g2d.drawImage(fpp.buffer, pfc.xPos-fpp.middleX, pfc.yPos-fpp.middleY, null);
+		//1st painting END
+		
+		VectorAdvanced crToCg = new VectorAdvanced(crX, crY, pfc.xPos, pfc.yPos);
+		crToCg.rotate(rotation);
+		cgX = crToCg.x2;
+		cgY = crToCg.y2;
+		
+		//2nd painting:
+		g2d = (Graphics2D)imToShow.getGraphics();
+		for (int j = 0; j < p.length; j++) {
+			if(p[j]==null)continue;
+			EdgeDetector.drawEdges(imToShow, p[j]);
+		}
+		g2d.setColor(Color.yellow);
+		g2d.drawLine(-10+crX, crY, 10+crX, crY);
+		g2d.drawLine(crX, -10+crY, crX, 10+crY);
+		g2d.setColor(Color.red);
+		g2d.drawLine(-15+(int)cgX, (int)cgY, 15+(int)cgX, (int)cgY);
+		g2d.drawLine((int)cgX, -15+(int)cgY, (int)cgX, 15+(int)cgY);
+		g2d.translate(crToCg.x2, crToCg.y2);
+		g2d.setRenderingHint(RenderingHints.KEY_INTERPOLATION, RenderingHints.VALUE_INTERPOLATION_BICUBIC);
+		g2d.rotate(rotation);
+		g2d.drawImage(fpp.buffer, -fpp.middleX, -fpp.middleY, null);
+		
 	}
 }
