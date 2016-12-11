@@ -17,7 +17,11 @@ public class FootprintPainter {
 	public final int middleX;
 	public final int middleY;
 	
+	public final String name;
+	
 	public FootprintPainter(Footprint p, double scale, boolean fill, Color c){
+		name = p.name;
+		
 		color = c;
 		fillMode = fill;
 		

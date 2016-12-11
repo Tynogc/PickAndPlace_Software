@@ -98,3 +98,9 @@ res/win/gui/cli/Gskd.png
 res/win/gui/cli/Gskd.png
 res/ima/intro.png
 res/ima/intro.png
+res/ima/mbe/m400x600.png
+res/ima/cli/Xn.png
+res/ima/cli/Xc.png
+res/ima/cli/Xf.png
+res/ima/cli/Xd.png
+res/ima/cli/Xd.png

@@ -41,56 +41,18 @@ public class PartPlacement {
 	}
 	
 	public void processImage(){
-		
+		debug.Debug.println("* Starting Process");
 		spindel.processImage(imageToProcess, 255, 360, values);
+		debug.Debug.println("DONE!");
 		
-		//TODO!!!!
+		//TODO
 		try {
 			File outputfile = new File("test3.png");
 			ImageIO.write(imageToProcess, "png", outputfile);
 		} catch (Exception e) {
 			// TODO: handle exception
 		}
-		
-		debug.Debug.println("Starting Process");
-		imageToProcess = Filter.colorFilter(imageToProcess, new Color(80,255,255), 100);
 		lastImageProcessed = imageToProcess;
-		imageToProcess = Filter.amplifyContrast(imageToProcess, 50, 3);
-		EdgeDetector ed = new EdgeDetector(EdgeDetector.UP, 50);
-		Point[][] p;
-		Point[][] p1;
-		Point[][] p2;
-		Point[][] p3;
-		try {
-			p = ed.getEdgeFrome(imageToProcess);
-			ed = new EdgeDetector(EdgeDetector.LEFT, 50);
-			p1 = ed.getEdgeFrome(imageToProcess);
-			ed = new EdgeDetector(EdgeDetector.DOWN, 50);
-			p2 = ed.getEdgeFrome(imageToProcess);
-			ed = new EdgeDetector(EdgeDetector.RIGHT, 50);
-			p3 = ed.getEdgeFrome(imageToProcess);
-			
-		} catch (Exception e) {
-			debug.Debug.printExeption(e);
-			return;
-		}
-		debug.Debug.println("Done!");
-		try {
-			sema.acquire();
-		} catch (InterruptedException e) {
-			e.printStackTrace();
-		}
-		try {
-			ed.drawEdges(lastImageProcessed, p);
-			ed.drawEdges(lastImageProcessed, p1);
-			ed.drawEdges(lastImageProcessed, p2);
-			ed.drawEdges(lastImageProcessed, p3);
-		} catch (Exception e) {
-			sema.release();
-			debug.Debug.printExeption(e);
-			return;
-		}
-		sema.release();
 	}
 	////////////////////////////////////////////////////////////////////////////////////////////////
 	////////////////////////////////////////////////////////////////////////////////////////////////
