@@ -139,7 +139,7 @@ public class Overview extends AbstractMenu{
 	protected void paintIntern(Graphics g) {
 		pp.paintViewer(g, 630, 500);
 		pp.paintSpindel(g, 30, 0);
-		pp.paintUnProcessed(g, 800, 0);
+		pp.paintProcessed(g, 800, 0);
 		
 		if(fpp != null)
 			g.drawImage(fpp.buffer, 30, 30, null);
