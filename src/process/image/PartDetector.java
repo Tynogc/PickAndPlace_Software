@@ -25,6 +25,8 @@ public class PartDetector {
 	public double cgY;
 	public double rotation;
 	
+	public static boolean newAlgorithm = true;
+	
 	public PartDetector(int centerRotX, int centerRotY){
 		crX = centerRotX;
 		crY = centerRotY;
@@ -36,26 +38,35 @@ public class PartDetector {
 		
 		int i = 0;
 		double r = 0.0;
+		
+		RotationDetector rotDec = new RotationDetector();
+		r = rotDec.getRotation(imToProcess, 50);
+		debug.Debug.println(" OpenCv R: "+r);
+		r = Math.toRadians(r);
+		rotation = r;
+		
 		Point[][][] p = new Point[4][1][1];
 		
-		for (int j = 0; j < 4; j++) {
-			if(f.direction[j]){
-				i++;
-				EdgeDetector ed;
-				if(j == 0)ed = new EdgeDetector(EdgeDetector.UP, 50);
-				else if(j == 1)ed = new EdgeDetector(EdgeDetector.RIGHT, 50);
-				else if(j == 2)ed = new EdgeDetector(EdgeDetector.DOWN, 50);
-				else ed = new EdgeDetector(EdgeDetector.LEFT, 50);
-				p[j] = ed.getEdgeFrome(imToProcess, !f.only27[j]);
-				double rf = ed.getAngleToPosition(p[j]);
-				
-				System.out.println("U "+Math.toDegrees(rf));
-				r+=rf;
+		if(!newAlgorithm){
+			for (int j = 0; j < 4; j++) {
+				if(f.direction[j]){
+					i++;
+					EdgeDetector ed;
+					if(j == 0)ed = new EdgeDetector(EdgeDetector.UP, 50);
+					else if(j == 1)ed = new EdgeDetector(EdgeDetector.RIGHT, 50);
+					else if(j == 2)ed = new EdgeDetector(EdgeDetector.DOWN, 50);
+					else ed = new EdgeDetector(EdgeDetector.LEFT, 50);
+					p[j] = ed.getEdgeFrome(imToProcess, !f.only27[j]);
+					double rf = ed.getAngleToPosition(p[j]);
+					
+					System.out.println("U "+Math.toDegrees(rf));
+					r+=rf;
+				}
 			}
+			r /= i;
+			rotation  = r;
+			System.out.println("G "+Math.toDegrees(r));
 		}
-		r /= i;
-		rotation  = r;
-		System.out.println("G "+Math.toDegrees(r));
 		debug.Debug.println(" Angle: "+Math.toDegrees(r));
 		imProcessedToShow = new BufferedImage(imToShow.getWidth(), imToShow.getHeight(), BufferedImage.TYPE_INT_ARGB);
 		Graphics2D g2d = (Graphics2D)imProcessedToShow.getGraphics();
@@ -102,9 +113,11 @@ public class PartDetector {
 		
 		//2nd painting:
 		g2d = (Graphics2D)imToShow.getGraphics();
-		for (int j = 0; j < p.length; j++) {
-			if(p[j]==null)continue;
-			EdgeDetector.drawEdges(imToShow, p[j]);
+		if(!newAlgorithm){
+			for (int j = 0; j < p.length; j++) {
+				if(p[j]==null)continue;
+				EdgeDetector.drawEdges(imToShow, p[j]);
+			}
 		}
 		g2d.setColor(Color.yellow);
 		g2d.drawLine(-10+crX, crY, 10+crX, crY);
@@ -112,6 +125,9 @@ public class PartDetector {
 		g2d.setColor(Color.red);
 		g2d.drawLine(-15+(int)cgX, (int)cgY, 15+(int)cgX, (int)cgY);
 		g2d.drawLine((int)cgX, -15+(int)cgY, (int)cgX, 15+(int)cgY);
+		
+		rotDec.paintResult(g2d);
+		
 		g2d.translate(crToCg.x2, crToCg.y2);
 		g2d.setRenderingHint(RenderingHints.KEY_INTERPOLATION, RenderingHints.VALUE_INTERPOLATION_BICUBIC);
 		g2d.rotate(rotation);

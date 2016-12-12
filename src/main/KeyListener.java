@@ -1,5 +1,7 @@
 package main;
 
+import gui.BottomMenu;
+
 import java.awt.event.KeyEvent;
 
 public class KeyListener implements java.awt.event.KeyListener{
@@ -11,6 +13,8 @@ public class KeyListener implements java.awt.event.KeyListener{
 	private String keychain;
 	private boolean enter;
 	
+	public BottomMenu fMenus;
+	
 	public KeyListener() {
 		chars = new char[20];
 		for (int i = 0; i < chars.length; i++) {
@@ -21,7 +25,7 @@ public class KeyListener implements java.awt.event.KeyListener{
 	
 	@Override
 	public void keyPressed(KeyEvent e) {
-		/*if(e.getKeyCode()>=112){
+		if(e.getKeyCode()>=112){
 			if(fMenus != null){
 				if(e.getKeyCode()<121){
 					fMenus.fKeyPressed(e.getKeyCode()-111);
@@ -36,7 +40,7 @@ public class KeyListener implements java.awt.event.KeyListener{
 		}
 		if(e.getKeyCode() == KeyEvent.VK_ESCAPE){
 			//TODO interupt
-		}*/
+		}
 		
 		
 		char c = e.getKeyChar();

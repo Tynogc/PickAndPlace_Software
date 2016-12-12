@@ -55,6 +55,8 @@ public class GuiControle {
 			debugMenu.setActivMenu(dbm);
 			sideMenu.setActivMenu(sdm);
 			sdmActiv = true;
+			
+			k.fMenus = btm;
 		}
 		
 		toolTip = new ToolTip();

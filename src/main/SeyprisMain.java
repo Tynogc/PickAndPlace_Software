@@ -213,13 +213,6 @@ public class SeyprisMain extends JPanel{
 	
 	public static void main(String[] a){
 		new SeyprisMain();
-		/*
-		System.out.println("12345,1000 "+ItemControle.getCommata(12345, 1000));
-		System.out.println("123456,1000 "+ItemControle.getCommata(123456, 1000));
-		System.out.println("12345,10 "+ItemControle.getCommata(12345, 10));
-		System.out.println("12345,1 "+ItemControle.getCommata(12345, 1));
-		System.out.println("123,1000 "+ItemControle.getCommata(123, 1000));
-		System.out.println("123234567890,1 "+ItemControle.getCommata(1234567890, 1));*/
 	}
 
 }

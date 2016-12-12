@@ -47,7 +47,7 @@ public class TopMenu extends AbstractMenu{
 			}
 		};
 		add(b1);
-		b1.setText("Transmission");
+		b1.setText("Setup");
 		Button b2 = new Button(200,20,MenuConstants.filePathButton+"B") {
 			
 			@Override
@@ -67,7 +67,7 @@ public class TopMenu extends AbstractMenu{
 		};
 		add(b2);
 		b2.setTextColor(Button.gray);
-		b2.setText("Telemetry");
+		b2.setText("Project");
 		
 		Button b3 = new Button(370,20,MenuConstants.filePathButton+"G") {
 			
@@ -87,7 +87,7 @@ public class TopMenu extends AbstractMenu{
 			}
 		};
 		add(b3);
-		b3.setText("GPS");
+		b3.setText("Reel");
 		
 		Button sbn1 = new Button(1200, 20, MenuConstants.filePathButton+"Gs") {
 			private boolean ac = true;
