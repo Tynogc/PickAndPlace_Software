@@ -42,7 +42,7 @@ public class PartPlacement {
 	
 	public void processImage(){
 		debug.Debug.println("* Starting Process");
-		spindel.processImage(imageToProcess, 255, 360, values);
+		spindel.processImage(imageToProcess, 0, 0, values);
 		debug.Debug.println("DONE!");
 		
 		//TODO
@@ -65,6 +65,11 @@ public class PartPlacement {
 		}
 		if(lastImageUnProcessed != null)
 			g.drawImage(lastImageUnProcessed, x, y, null);
+		g.setColor(Color.yellow);
+		x+=spindel.centerOfRotationX;
+		y+=spindel.centerOfRotationY;
+		g.drawLine(x+10,y,x-10,y);
+		g.drawLine(x,y-10,x,y+10);
 		sema.release();
 	}
 	

@@ -32,14 +32,14 @@ public class Spindel {
 	private Reel reel;
 	
 	public Spindel(){
-		centerOfRotationX = 0;
-		centerOfRotationY = 0;//TODO
+		centerOfRotationX = 350;
+		centerOfRotationY = 350;//TODO
 		
 		sema = new Semaphore(1);
 		
 		reel = new Reel();
-		reel.fp = new KiCadFileImport(new File("PLCC-44.kicad_mod")).footprint;
-		reel.detectionHint = FootprintDetectionHints.DETECT_ALL_SIDES_PADDED;
+		reel.fp = new KiCadFileImport(new File("SSOP-28_5.3x10.2mm_Pitch0.65mm.kicad_mod")).footprint;
+		reel.detectionHint = FootprintDetectionHints.DETECT_LEFT_RIGHT_PADDED;
 		gui.GuiControle.addMenu(new gui.subMenu.FootprintSetup(300, 100, reel));
 	}
 	

@@ -48,10 +48,7 @@ public class PartDetector {
 				else ed = new EdgeDetector(EdgeDetector.LEFT, 50);
 				p[j] = ed.getEdgeFrome(imToProcess, !f.only27[j]);
 				double rf = ed.getAngleToPosition(p[j]);
-				if(rf>Math.PI/2)
-					rf-=Math.PI;
-				if(rf<-Math.PI/2)
-					rf+=Math.PI;
+				
 				System.out.println("U "+Math.toDegrees(rf));
 				r+=rf;
 			}
@@ -118,7 +115,7 @@ public class PartDetector {
 		g2d.translate(crToCg.x2, crToCg.y2);
 		g2d.setRenderingHint(RenderingHints.KEY_INTERPOLATION, RenderingHints.VALUE_INTERPOLATION_BICUBIC);
 		g2d.rotate(rotation);
-		g2d.drawImage(fpp.buffer, -fpp.middleX, -fpp.middleY, null);
+		//g2d.drawImage(fpp.buffer, -fpp.middleX, -fpp.middleY, null);
 		
 	}
 }

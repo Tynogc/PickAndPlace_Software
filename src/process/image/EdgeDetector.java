@@ -122,23 +122,36 @@ public class EdgeDetector {
 	}
 	
 	public Point[] getClosePoints(int i, int j, BufferedImage img, int d){
-		Point[] p = new Point[40];
+		Point[] p = new Point[10];
 		int[] q = convert(i, j, img, d);
 		p[0] = new Point(q[0], q[1]);
 		
 		//int size = getSizeJ(img);
 		for (int k = 1; k < p.length; k++) {
-			for (int l = j-30; l < j+30; l++) {
-				q = convert(i+k, l, img, d);
-				if(searchPic(i+k, l, img, d)){
-					q = convert(i+k, l, img, d);
-					p[k] = new Point(q[0], q[1]);
-					break;
-				}
+			for (int l = j-10; l < j+10; l++) {
+				p[k] = spearhead(i+k*4, l, 10, img, d);
+				if(p[k]!= null)break;
 			}
 		}
 		
 		return p;
+	}
+	
+	private Point spearhead(int i, int j, int dis, BufferedImage img, int d){
+		int[] q;
+		
+		for (int k = dis; k >= 0; k--) {
+			if(searchPic(i+k, j-k/2, img, d)){
+				q = convert(i+k, j-k/2, img, d);
+				return new Point(q[0], q[1]);
+			}
+			if(searchPic(i-k, j-k/2, img, d)){
+				q = convert(i-k, j-k/2, img, d);
+				return new Point(q[0], q[1]);
+			}
+		}
+		
+		return null;
 	}
 	
 	private boolean searchPic(int i, int j, BufferedImage ima, int d){
@@ -191,13 +204,13 @@ public class EdgeDetector {
 		double r = getAngleToY(p);
 		switch(dirr){
 		case UP:
-			return r;
+			return Math.PI/2-r;
 		case DOWN:
-			return r;
+			return Math.PI/2-r;
 		case LEFT:
-			return -Math.PI/2+r;
+			return -r;
 		case RIGHT:
-			return -Math.PI/2+r;
+			return -r;
 		default:
 			return Double.NaN;
 		}
