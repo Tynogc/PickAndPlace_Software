@@ -13,7 +13,7 @@ public class FootprintPainterToShow {
 	
 	public FootprintPainter fpp;
 	
-	public FootprintPainterToShow(Footprint f, int size, boolean fill, Color c){
+	public FootprintPainterToShow(Footprint f, int size, boolean fill, Color c, boolean strings, int rot){
 		int[] i = FootprintSize.getSize(f, 10.0);
 		int u = i[0];
 		if(i[1]>u)
@@ -26,7 +26,7 @@ public class FootprintPainterToShow {
 		
 		debug.Debug.println("* "+s);
 		
-		fpp = new FootprintPainter(f, s, fill, c);
+		fpp = new FootprintPainter(f, s, fill, c, strings, rot);
 		middleX = fpp.middleX;
 		middleY = fpp.middleY;
 		buffer = fpp.buffer;

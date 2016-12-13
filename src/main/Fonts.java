@@ -5,6 +5,7 @@ import java.io.File;
 
 public class Fonts {
 	
+	public static Font font10;
 	public static Font font12;
 	public static Font font14;
 	public static Font font16;
@@ -14,6 +15,7 @@ public class Fonts {
 	public static Font fontBold14;
 
 	public static void createAllFonts(){
+		font10 = createFont(10);
 		font12 = createFont(12);
 		font14 = createFont(14);
 		font16 = createFont(16);
