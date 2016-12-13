@@ -39,6 +39,10 @@ public abstract class DataFiled extends Button{
 	}
 	
 	public void paintYou(Graphics g){
+		if(!isVisible()){
+			next.paintYou(g);
+			return;
+		}
 		boolean bli = blinking && System.currentTimeMillis()/500%2 == 0;
 		if(disabled){
 			g.setFont(font);
