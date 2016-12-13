@@ -87,7 +87,7 @@ public class TopMenu extends AbstractMenu{
 			}
 		};
 		add(b3);
-		b3.setText("Reel");
+		b3.setText("Calibration");
 		
 		Button sbn1 = new Button(1200, 20, MenuConstants.filePathButton+"Gs") {
 			private boolean ac = true;

@@ -104,3 +104,13 @@ res/ima/cli/Xc.png
 res/ima/cli/Xf.png
 res/ima/cli/Xd.png
 res/ima/cli/Xd.png
+res/ima/gui/par/feederDirection.png
+res/ima/gui/par/feederDirection.png
+res/ima/gui/par/1.png
+res/ima/gui/par/2.png
+res/ima/gui/par/2.png
+res/ima/gui/par/3.png
+res/ima/gui/par/3.png
+res/ima/gui/par/tool.png
+res/ima/gui/par/tool.png
+res/ima/gui/par/4.png

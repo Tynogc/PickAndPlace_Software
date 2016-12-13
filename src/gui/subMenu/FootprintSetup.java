@@ -13,21 +13,22 @@ import components.FootprintPainter;
 import components.FootprintPainterToShow;
 import components.kiCad.KiCadFileImport;
 import componetStorage.Reel;
+import componetStorage.StoredComponent;
 import main.PicLoader;
 import menu.Button;
 
 public class FootprintSetup extends gui.MoveMenu{
 
-	private Reel reel;
+	private StoredComponent reel;
 	
 	private FootprintPainterToShow fpp;
 	private Semaphore sema;
 	private File fileChooserReturn;
 	private boolean fileChooserPending;
 	
-	private int footprintSize = 180;
+	private int footprintSize = 200;
 	
-	public FootprintSetup(int x, int y, Reel r) {
+	public FootprintSetup(int x, int y, StoredComponent r) {
 		super(x, y, PicLoader.pic.getImage("res/ima/mbe/m400x600.png"), "Setup Footprint");
 		reel = r;
 		sema = new Semaphore(1);
@@ -75,9 +76,9 @@ public class FootprintSetup extends gui.MoveMenu{
 	@Override
 	protected void paintSecond(Graphics g) {
 		g.setColor(Color.black);
-		g.fillRect(10, 40, 200, 200);
+		g.fillRect(100, 200, 200, 200);
 		if(fpp != null)
-			g.drawImage(fpp.buffer, 110-fpp.middleX, 140-fpp.middleY, null);
+			g.drawImage(fpp.buffer, 100, 200, null);
 		
 	}
 
@@ -97,7 +98,7 @@ public class FootprintSetup extends gui.MoveMenu{
 					Footprint f = new KiCadFileImport(fileChooserReturn).footprint;
 					reel.fp = f;
 					fpp = new FootprintPainterToShow(reel.fp,footprintSize,true,Color.red,
-							true, FootprintPainter.ROTATION_LEFT);
+							true, FootprintPainter.ROTATION_UP);
 				}else{
 					debug.Debug.println("* File withe name "+name+" can't be resolved to Type!",
 							debug.Debug.COMERR);

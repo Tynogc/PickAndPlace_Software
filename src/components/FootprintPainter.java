@@ -27,10 +27,10 @@ public class FootprintPainter {
 	public static final int ROTATION_LEFT = StoredComponent.ORIENTATION_270_DEGREE;
 	
 	public FootprintPainter(Footprint p, double scale, boolean fill, Color c){
-		this(p,scale,fill,c,false,ROTATION_UP);
+		this(p,scale,fill,c,ROTATION_UP);
 	}
 	
-	public FootprintPainter(Footprint p, double scale, boolean fill, Color c, boolean strings, int rotation){
+	public FootprintPainter(Footprint p, double scale, boolean fill, Color c, int rotation){
 		name = p.name;
 		
 		color = c;
@@ -50,18 +50,6 @@ public class FootprintPainter {
 		do {
 			if(pad.pad != null)
 				paintPad(pad.pad, scale, g, rotation);
-			
-			pad = pad.next;
-		} while (pad!= null);
-		
-		if(!strings)
-			return;
-		
-		g.setFont(main.Fonts.font12);
-		pad = p.pads;
-		do {
-			if(pad.pad != null)
-				drawPadString(pad.pad, scale, g, rotation);
 			
 			pad = pad.next;
 		} while (pad!= null);
@@ -102,41 +90,5 @@ public class FootprintPainter {
 		}else{
 			g.drawPolygon(poly);
 		}
-	}
-	
-	private void drawPadString(Pad p, double s, Graphics g, int rot){
-		String st = p.name;
-		try {
-			int u = Integer.parseInt(st);
-			if(u != 1)
-				return;
-		} catch (Exception e) {}
-		
-		int x = (int)(p.xPos*s);
-		int y = (int)(p.yPos*s);
-		
-		if(rot == ROTATION_LEFT){
-			int u = x;
-			x = y;
-			y = -u;
-		}
-		if(rot == ROTATION_DOWN){
-			x = -x;
-			y = -y;
-		}
-		if(rot == ROTATION_RIGHT){
-			int u = x;
-			x = -y;
-			y = u;
-		}
-		x-=3;
-		y+=4;
-		g.setColor(Color.white);
-		g.drawString(st, x-1, y-1);
-		g.drawString(st, x+1, y-1);
-		g.drawString(st, x+1, y+1);
-		g.drawString(st, x-1, y+1);
-		g.setColor(Color.black);
-		g.drawString(st, x, y);
 	}
 }

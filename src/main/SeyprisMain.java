@@ -22,7 +22,7 @@ import javax.swing.SwingUtilities;
 public class SeyprisMain extends JPanel{
 	
 	private JFrame frame;
-	private KeyListener key;
+	private static KeyListener key;
 	private gui.GuiControle gui;
 	private MouseListener mouse;
 	
@@ -213,6 +213,10 @@ public class SeyprisMain extends JPanel{
 	
 	public static void main(String[] a){
 		new SeyprisMain();
+	}
+	
+	public static KeyListener getKL(){
+		return key;
 	}
 
 }

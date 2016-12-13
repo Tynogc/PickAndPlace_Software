@@ -18,7 +18,7 @@ public class StoredComponent {
 	
 	//Footprint
 	public Footprint fp;
-	public int hight;
+	public double hight;
 	public String footprintFilepath;
 	
 	public int partOrientation;
@@ -26,6 +26,9 @@ public class StoredComponent {
 	public static final int ORIENTATION_90_DEGREE = 1;//RIGHT
 	public static final int ORIENTATION_180_DEGREE = 2;//DOWN
 	public static final int ORIENTATION_270_DEGREE = 3;//LEFT
+	
+	//Tool
+	public int toolToUse;
 	
 	public FootprintDetectionHints getDetectionHints(){
 		return new FootprintDetectionHints(fp, detectionHint, pue_Percent, pue_Number);
