@@ -69,7 +69,7 @@ public class FootprintSetup extends gui.MoveMenu{
 		
 		if(reel.fp!=null)
 			fpp = new FootprintPainterToShow(reel.fp, footprintSize, true, Color.red,
-					true, FootprintPainter.ROTATION_DOWN);
+					true, FootprintPainter.ROTATION_UP);
 	}
 
 	@Override
@@ -97,7 +97,7 @@ public class FootprintSetup extends gui.MoveMenu{
 					Footprint f = new KiCadFileImport(fileChooserReturn).footprint;
 					reel.fp = f;
 					fpp = new FootprintPainterToShow(reel.fp,footprintSize,true,Color.red,
-							true, FootprintPainter.ROTATION_LEFT);
+							true, FootprintPainter.ROTATION_UP);
 				}else{
 					debug.Debug.println("* File withe name "+name+" can't be resolved to Type!",
 							debug.Debug.COMERR);

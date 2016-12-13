@@ -5,6 +5,8 @@ import java.awt.Graphics;
 import java.awt.Polygon;
 import java.awt.image.BufferedImage;
 
+import componetStorage.StoredComponent;
+
 public class FootprintPainter {
 
 	public BufferedImage buffer;
@@ -19,10 +21,10 @@ public class FootprintPainter {
 	
 	public final String name;
 	
-	public static final int ROTATION_UP = 0;
-	public static final int ROTATION_RIGHT = 1;
-	public static final int ROTATION_DOWN = 2;
-	public static final int ROTATION_LEFT = 3;
+	public static final int ROTATION_UP = StoredComponent.ORIENTATION_0_DEGREE;
+	public static final int ROTATION_RIGHT = StoredComponent.ORIENTATION_90_DEGREE;
+	public static final int ROTATION_DOWN = StoredComponent.ORIENTATION_180_DEGREE;
+	public static final int ROTATION_LEFT = StoredComponent.ORIENTATION_270_DEGREE;
 	
 	public FootprintPainter(Footprint p, double scale, boolean fill, Color c){
 		this(p,scale,fill,c,false,ROTATION_UP);
@@ -77,6 +79,18 @@ public class FootprintPainter {
 				u = xi[i];
 				xi[i] = yi[i];
 				yi[i] = -u;
+			}
+		}else if(rot == ROTATION_RIGHT){
+			int u;
+			for (int i = 0; i < xi.length; i++) {
+				u = xi[i];
+				xi[i] = -yi[i];
+				yi[i] = u;
+			}
+		}else if(rot == ROTATION_DOWN){
+			for (int i = 0; i < xi.length; i++) {
+				xi[i] = -xi[i];
+				yi[i] = -yi[i];
 			}
 		}
 		

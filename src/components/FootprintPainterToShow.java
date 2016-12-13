@@ -13,6 +13,8 @@ public class FootprintPainterToShow {
 	
 	public FootprintPainter fpp;
 	
+	public final String name;
+	
 	public FootprintPainterToShow(Footprint f, int size, boolean fill, Color c, boolean strings, int rot){
 		int[] i = FootprintSize.getSize(f, 10.0);
 		int u = i[0];
@@ -35,5 +37,7 @@ public class FootprintPainterToShow {
 		g.setColor(Color.blue);
 		g.drawLine(middleX+10, middleY, middleX-10, middleY);
 		g.drawLine(middleX, middleY+10, middleX, middleY-10);
+		
+		name = fpp.name;
 	}
 }

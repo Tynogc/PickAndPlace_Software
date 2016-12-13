@@ -7,7 +7,6 @@ public class StoredComponent {
 
 	public int numberOfParts;
 	public final int id = 0;//TODO
-	public int partOrientation;
 	
 	public int detectionHint;
 	
@@ -20,6 +19,13 @@ public class StoredComponent {
 	//Footprint
 	public Footprint fp;
 	public int hight;
+	public String footprintFilepath;
+	
+	public int partOrientation;
+	public static final int ORIENTATION_0_DEGREE = 0;//UP
+	public static final int ORIENTATION_90_DEGREE = 1;//RIGHT
+	public static final int ORIENTATION_180_DEGREE = 2;//DOWN
+	public static final int ORIENTATION_270_DEGREE = 3;//LEFT
 	
 	public FootprintDetectionHints getDetectionHints(){
 		return new FootprintDetectionHints(fp, detectionHint, pue_Percent, pue_Number);
