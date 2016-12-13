@@ -16,10 +16,15 @@ public class PicturFpComparison {
 	public static final int LEFT_RIGHT = 22;
 	public static final int UP_DOWN = 24;
 	
+	public boolean pickUpError;
+	
+	public long detectedMax;
+	
 	public PicturFpComparison(Footprint f, double scale, int x, int y){
 		fp = new FootprintPainter(f, scale, true, Color.white);
 		xPos = x;
 		yPos = y;
+		pickUpError = false;
 	}
 	
 	public void search(BufferedImage im, int direction, int size){
@@ -48,9 +53,11 @@ public class PicturFpComparison {
 			}
 		}
 		if(xMax<0||yMax<0){
-			debug.Debug.println("* PROBLEM Checking footprint: no match -> PUE!", debug.Debug.ERROR);
+			debug.Debug.println("* PUE: Checking footprint: no match!", debug.Debug.ERROR);
+			pickUpError = true;
 			return;
 		}
+		detectedMax = max;
 		xPos = xMax;
 		yPos = yMax;
 	}

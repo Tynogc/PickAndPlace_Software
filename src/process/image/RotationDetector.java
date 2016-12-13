@@ -15,6 +15,8 @@ import org.opencv.imgproc.Imgproc;
 public class RotationDetector {
 	
 	private RotatedRect rtr;
+	
+	public int numberOfPixel;
 
 	public RotationDetector(){
 		
@@ -30,6 +32,7 @@ public class RotationDetector {
 			}
 		}
 		Point[] p = new Point[ammount];
+		numberOfPixel = ammount;
 		ammount = 0;
 		for (int x = 0; x < img.getWidth(); x++) {
 			for (int y = 0; y < img.getHeight(); y++) {
@@ -47,6 +50,13 @@ public class RotationDetector {
 		return rtr.angle;
 	}
 	
+	public int[] getCoR(){
+		return new int[]{
+				(int)rtr.center.x,
+				(int)rtr.center.y
+		};
+	}
+	
 	public void paintResult(Graphics g){
 		Point[] p = new Point[4];
 		rtr.points(p);
@@ -55,5 +65,8 @@ public class RotationDetector {
 		for (int i = 0; i < p.length; i++) {
 			g.drawLine((int)p[i].x, (int)p[i].y, (int)p[(i+1)%4].x, (int)p[(i+1)%4].y);
 		}
+		
+		g.drawLine((int)rtr.center.x-5, (int)rtr.center.y, (int)rtr.center.x+5, (int)rtr.center.y);
+		g.drawLine((int)rtr.center.x, (int)rtr.center.y-5, (int)rtr.center.x, (int)rtr.center.y+5);
 	}
 }

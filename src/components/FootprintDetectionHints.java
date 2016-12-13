@@ -17,9 +17,15 @@ public class FootprintDetectionHints {
 	public boolean[] direction;
 	public boolean[] only27;
 	
-	public FootprintDetectionHints(Footprint f, int dir){
+	public final double pue_Percent;
+	public final int pue_Number;
+	
+	public FootprintDetectionHints(Footprint f, int dir, double pue_Percent, int pue_Number){
 		dirNumbers = dir;
 		fp = f;
+		this.pue_Percent = pue_Percent;
+		this.pue_Number = pue_Number;
+		
 		
 		switch (dirNumbers) {
 		case DETECT_ONLY_DOWN:

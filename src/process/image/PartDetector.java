@@ -25,11 +25,16 @@ public class PartDetector {
 	public double cgY;
 	public double rotation;
 	
+	public double pue_Value;
+	
 	public static boolean newAlgorithm = true;
+	
+	public boolean pue;
 	
 	public PartDetector(int centerRotX, int centerRotY){
 		crX = centerRotX;
 		crY = centerRotY;
+		pue = false;
 	}
 	
 	public void look(BufferedImage im, FootprintDetectionHints f, PicProcessingStatLoader pps){
@@ -48,6 +53,7 @@ public class PartDetector {
 		Point[][][] p = new Point[4][1][1];
 		
 		if(!newAlgorithm){
+			r = 0.0;
 			for (int j = 0; j < 4; j++) {
 				if(f.direction[j]){
 					i++;
@@ -72,10 +78,19 @@ public class PartDetector {
 		Graphics2D g2d = (Graphics2D)imProcessedToShow.getGraphics();
 		g2d.translate(crX, crY);
 		g2d.setRenderingHint(RenderingHints.KEY_INTERPOLATION, RenderingHints.VALUE_INTERPOLATION_BICUBIC);
-		g2d.rotate(-r);
+		g2d.rotate(-rotation);
 		g2d.drawImage(imToShow, -crX, -crY, null);
 		
-		int[] cmg = CgDetector.getAdvCG(imProcessedToShow, 50);
+		int[] cmg;
+		
+		if(newAlgorithm){
+			cmg = rotDec.getCoR();
+			utility.VectorAdvanced v = new VectorAdvanced(crX,crY,cmg[0],cmg[1]);
+			v.rotate(-rotation);
+			cmg = new int[]{(int)v.x2,(int)v.y2};
+		}else{
+			cmg = CgDetector.getAdvCG(imProcessedToShow, 50);
+		}
 		
 		PicturFpComparison pfc = new PicturFpComparison(f.fp, pps.scaling, cmg[0], cmg[1]);
 		pfc.search(imProcessedToShow, PicturFpComparison.UP_DOWN, 50);
@@ -95,7 +110,7 @@ public class PartDetector {
 		for (int j = 0; j < im.getHeight(); j+=5) {
 			g2d.drawLine(0, j, im.getWidth(), j);
 		}
-		g2d.setColor(Color.blue);
+		g2d.setColor(Color.green);
 		g2d.drawLine(-10+cmg[0], cmg[1], 10+cmg[0], cmg[1]);
 		g2d.drawLine(cmg[0], -10+cmg[1], cmg[0], 10+cmg[1]);
 		cmg[0] = pfc.xPos;
@@ -110,6 +125,19 @@ public class PartDetector {
 		crToCg.rotate(rotation);
 		cgX = crToCg.x2;
 		cgY = crToCg.y2;
+		//Checking PUE
+		
+		int pue_Ammount = rotDec.numberOfPixel;
+		int pue_Second = (int)(pfc.detectedMax/255);
+		
+		pue_Value = (double)pue_Second/(double)pue_Ammount;
+		if(pue_Value<f.pue_Percent){
+			pue = true;
+			debug.Debug.println("* PUE: Footprint dosn't match propaly!", debug.Debug.ERROR);
+		}else if(f.pue_Number>pue_Ammount){
+			pue = true;
+			debug.Debug.println("* PUE: Footprint has to little points!", debug.Debug.ERROR);
+		}
 		
 		//2nd painting:
 		g2d = (Graphics2D)imToShow.getGraphics();
@@ -131,7 +159,8 @@ public class PartDetector {
 		g2d.translate(crToCg.x2, crToCg.y2);
 		g2d.setRenderingHint(RenderingHints.KEY_INTERPOLATION, RenderingHints.VALUE_INTERPOLATION_BICUBIC);
 		g2d.rotate(rotation);
-		//g2d.drawImage(fpp.buffer, -fpp.middleX, -fpp.middleY, null);
+		g2d.drawImage(fpp.buffer, -fpp.middleX, -fpp.middleY, null);
+		//2nd painting: END
 		
 	}
 }
