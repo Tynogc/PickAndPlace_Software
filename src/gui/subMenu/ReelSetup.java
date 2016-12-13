@@ -14,7 +14,7 @@ public class ReelSetup extends gui.MoveMenu{
 	private StoredComponent reel;
 	private FootprintPainterToShow fpp;
 	
-	private Dro
+	//private Dro
 
 	public ReelSetup(int x, int y, BufferedImage i, String t) {
 		super(x, y, PicLoader.pic.getImage("res/ima/mbe/m400x600.png"), "Setup Component");

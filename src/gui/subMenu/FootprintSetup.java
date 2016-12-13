@@ -97,7 +97,7 @@ public class FootprintSetup extends gui.MoveMenu{
 					Footprint f = new KiCadFileImport(fileChooserReturn).footprint;
 					reel.fp = f;
 					fpp = new FootprintPainterToShow(reel.fp,footprintSize,true,Color.red,
-							true, FootprintPainter.ROTATION_UP);
+							true, FootprintPainter.ROTATION_LEFT);
 				}else{
 					debug.Debug.println("* File withe name "+name+" can't be resolved to Type!",
 							debug.Debug.COMERR);
