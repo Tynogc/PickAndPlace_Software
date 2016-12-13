@@ -157,7 +157,7 @@ public class ComponentSetup extends gui.MoveMenu{
 		g.setColor(Color.white);
 		g.drawString("Part Position in Reel", 20, 257);
 		g.drawString("Component Hight", 20, 337);
-		g.drawString("Reel/Try/Tube - Setup", 20, 417);
+		g.drawString("Reel/Tray/Tube - Setup", 20, 417);
 	}
 
 	@Override
