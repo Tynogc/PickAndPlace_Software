@@ -123,10 +123,10 @@ public class GuiControle {
 			sideMenu.paintYou(g);
 		if(middleMenu != null)
 			middleMenu.paintYou(g);
+		debugMenu.paintYou(g);
 		for (int i = 0; i < menus.length; i++) {
 			menus[i].paintYou(g);
 		}
-		debugMenu.paintYou(g);
 		toolTip.paintYou(g);
 	}
 	
