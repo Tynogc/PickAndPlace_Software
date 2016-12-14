@@ -114,3 +114,4 @@ res/ima/gui/par/3.png
 res/ima/gui/par/tool.png
 res/ima/gui/par/tool.png
 res/ima/gui/par/4.png
+res/ima/gui/par/4.png

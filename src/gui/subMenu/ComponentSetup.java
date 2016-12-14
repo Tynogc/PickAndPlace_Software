@@ -64,7 +64,7 @@ public class ComponentSetup extends gui.MoveMenu{
 				//TODO...
 			}
 		};
-		loadTool.setText("SelectTool");
+		loadTool.setText("Select Tool");
 		add(loadTool);
 		
 		DataFiled toolNumber = new DataFiled(230,170,80,20,Color.blue) {
