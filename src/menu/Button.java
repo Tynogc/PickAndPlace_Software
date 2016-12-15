@@ -259,7 +259,7 @@ public abstract class Button implements ButtonInterface {
 		this.ySize = ySize;
 	}
 
-	public Button add(Button b){
+	public ButtonInterface add(ButtonInterface b){
 		next = next.add(b);
 		return this;
 	}

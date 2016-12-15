@@ -2,77 +2,66 @@ package menu;
 
 import java.awt.Graphics;
 
-public class Container extends Button implements ButtonInterface{
+public class Container implements ButtonInterface{
 
-	private ButtonInterface subButtons;
+	private ButtonInterface next;
+	private ButtonInterface content;
 	
-	public Container(int x, int y, int wi, int hi) {
-		super(x, y, wi, hi);
-		subButtons = new EndButtonList();
+	private int xPos;
+	private int yPos;
+	
+	public Container(int x, int y) {
+		xPos = x;
+		yPos = y;
+		content = new EndButtonList();
 	}
 	
-	public void addToContainer(Button b){
-		b.xPos = +xPos;
-		b.yPos = +yPos;
-		subButtons = subButtons.add(b);
-	}
-	public void removeFromContainer(Button b){
-		subButtons = subButtons.remove(b);
-	}
-
 	@Override
-	protected void isClicked() {
-		
-	}
-
-	@Override
-	protected void isFocused() {
-		
+	public ButtonInterface add(ButtonInterface b) {
+		next = next.add(b);
+		return this;
 	}
 
 	@Override
 	public void leftClicked(int x, int y) {
+		content.leftClicked(x-xPos, y-yPos);
 		next.leftClicked(x, y);
-		subButtons.leftClicked(x, y);
 	}
 
 	@Override
 	public void leftReleased(int x, int y) {
-		next.leftReleased(x, y);
-		subButtons.leftReleased(x, y);
+		content.leftReleased(x-xPos, y-yPos);
+		next.leftReleased(x, y);	
 	}
 
 	@Override
 	public void checkMouse(int x, int y) {
+		content.checkMouse(x-xPos, y-yPos);
 		next.checkMouse(x, y);
-		subButtons.checkMouse(x, y);
 	}
 
 	@Override
 	public void paintYou(Graphics g) {
+		g.translate(xPos, yPos);
+		content.paintYou(g);
+		g.translate(-xPos, -yPos);
 		next.paintYou(g);
-		//TODO selbst zeichnen
-		subButtons.paintYou(g);
 	}
 
 	@Override
-	public Button add(Button b){
-		next = next.add(b);
-		return this;
-	}
-	
-	@Override
-	public ButtonInterface remove(Button b){
-		if(b == this){
-			return next;
-		}
+	public ButtonInterface remove(Button b) {
 		next = next.remove(b);
 		return this;
 	}
 
 	@Override
-	protected void uppdate() {
-		
+	public void longTermUpdate() {
 	}
+
+	@Override
+	public void setNext(ButtonInterface b) {
+		next = b;
+	}
+	
 
 }

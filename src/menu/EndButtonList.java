@@ -7,7 +7,7 @@ import debug.Debug;
 public class EndButtonList implements ButtonInterface{
 
 	@Override
-	public Button add(Button b) {
+	public ButtonInterface add(ButtonInterface b) {
 		b.setNext(this);
 		return b;
 	}
@@ -41,5 +41,8 @@ public class EndButtonList implements ButtonInterface{
 
 	@Override
 	public void longTermUpdate() {}
+
+	@Override
+	public void setNext(ButtonInterface b) {}
 
 }
