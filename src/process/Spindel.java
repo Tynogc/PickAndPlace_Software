@@ -38,7 +38,7 @@ public class Spindel {
 		
 		sema = new Semaphore(1);
 		
-		reel = new Reel();
+		reel = new StoredComponent();
 		reel.fp = new KiCadFileImport(new File("SSOP-28_5.3x10.2mm_Pitch0.65mm.kicad_mod")).footprint;
 		reel.detectionHint = FootprintDetectionHints.DETECT_LEFT_RIGHT_PADDED;
 		gui.GuiControle.addMenu(new gui.subMenu.ComponentSetup(300, 100, reel));

@@ -7,6 +7,8 @@ public class Container implements ButtonInterface{
 	private ButtonInterface next;
 	private ButtonInterface content;
 	
+	private boolean visible;
+	
 	private int xPos;
 	private int yPos;
 	
@@ -14,6 +16,7 @@ public class Container implements ButtonInterface{
 		xPos = x;
 		yPos = y;
 		content = new EndButtonList();
+		visible = true;
 	}
 	
 	@Override
@@ -42,9 +45,11 @@ public class Container implements ButtonInterface{
 
 	@Override
 	public void paintYou(Graphics g) {
-		g.translate(xPos, yPos);
-		content.paintYou(g);
-		g.translate(-xPos, -yPos);
+		if(visible){
+			g.translate(xPos, yPos);
+			content.paintYou(g);
+			g.translate(-xPos, -yPos);
+		}
 		next.paintYou(g);
 	}
 
@@ -62,6 +67,32 @@ public class Container implements ButtonInterface{
 	public void setNext(ButtonInterface b) {
 		next = b;
 	}
-	
 
+	public boolean isVisible() {
+		return visible;
+	}
+
+	public void setVisible(boolean visible) {
+		this.visible = visible;
+	}
+
+	public int getxPos() {
+		return xPos;
+	}
+
+	public void setxPos(int xPos) {
+		this.xPos = xPos;
+	}
+
+	public int getyPos() {
+		return yPos;
+	}
+
+	public void setyPos(int yPos) {
+		this.yPos = yPos;
+	}
+	
+	public void addInContainer(ButtonInterface b){
+		next = next.add(b);
+	}
 }
