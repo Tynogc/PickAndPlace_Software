@@ -21,6 +21,9 @@ public class ReelSetup extends MoveMenu{
 	private Container c_tray;
 	
 	private int current;
+	private static final int CURRENT_REEL = 0;
+	private static final int CURRENT_TUBE = 1;
+	private static final int CURRENT_TRAY = 2;
 	
 	public ReelSetup(int x, int y, StoredComponent sc) {
 		super(x, y, PicLoader.pic.getImage("res/ima/mbe/m500x200.png"),"Set Container for Part");
@@ -30,6 +33,44 @@ public class ReelSetup extends MoveMenu{
 		c_tube = new Container(10, 60);
 		c_tray = new Container(10, 60);
 		
+		b_reel = new Button(30,60,"res/ima/cli/Gsk") {
+			@Override
+			protected void uppdate() {}
+			@Override
+			protected void isFocused() {}
+			@Override
+			protected void isClicked() {
+				// TODO Auto-generated method stub
+				
+			}
+		};
+		add(b_reel);
+		b_tube = new Button(130,60,"res/ima/cli/Gsk") {
+			@Override
+			protected void uppdate() {}
+			@Override
+			protected void isFocused() {}
+			@Override
+			protected void isClicked() {
+				// TODO Auto-generated method stub
+				
+			}
+		};
+		add(b_tube);
+		b_tray = new Button(230,60,"res/ima/cli/Gsk") {
+			@Override
+			protected void uppdate() {}
+			@Override
+			protected void isFocused() {}
+			@Override
+			protected void isClicked() {
+				// TODO Auto-generated method stub
+				
+			}
+		};
+		add(b_tray);
+		
+		toggledType(current);//TODO
 	}
 
 	@Override
@@ -51,6 +92,7 @@ public class ReelSetup extends MoveMenu{
 	}
 	
 	private void toggledType(int t){
+		current = t;
 		c_reel.setVisible(t==0);
 		c_tube.setVisible(t==1);
 		c_tray.setVisible(t==2);
