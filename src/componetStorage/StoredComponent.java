@@ -5,12 +5,17 @@ import components.FootprintDetectionHints;
 
 public class StoredComponent {
 
+	public String name;
+	//Unique ID of the Part
+	public String id;
+	
+	public boolean mark_active;
+	public boolean mark_pref;
+	public boolean mark_attention;
+	
 	public int numberOfParts;
-	public final int id = 0;//TODO
 	
 	public int detectionHint;
-	
-	public String name;
 	
 	//PUE detection
 	public double pue_Percent;//Percentage of Matching to Footprint

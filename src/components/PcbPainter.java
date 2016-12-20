@@ -25,14 +25,15 @@ public class PcbPainter {
 			if(f.fp != null){
 				FootprintPainter fpp = new FootprintPainter(f.fp, scale, fill, c);
 				bua[size] = fpp.buffer;
-				pos[size] = new Position(f.fp.xPos*scale, f.fp.yPos*scale, Math.toRadians(f.fp.rotation), fpp.middleX, fpp.middleY);
+				pos[size] = new Position(f.fp.xPos*scale, f.fp.yPos*scale, Math.toRadians(f.fp.rotation),
+						fpp.middleX, fpp.middleY, f.fp.reference);
 				size++;
 			}
 			f = f.next;
 		}
 	}
 	
-	public void paint(Graphics2D g){
+	public void paint(Graphics2D g, boolean showName){
 		for (int i = 0; i < bua.length; i++) {
 			if(pos[i].x == Double.NaN)continue;
 			g.translate(pos[i].x, pos[i].y);
@@ -42,6 +43,10 @@ public class PcbPainter {
 			g.setColor(Color.blue);
 			g.drawLine(10, 0, -10, 0);
 			g.drawLine(0, -10, 0, 10);
+			if(showName){
+				g.setColor(Color.white);
+				g.drawString(pos[i].name, 1, -1);
+			}
 			g.translate(-pos[i].x, -pos[i].y);
 		}
 	}
@@ -53,11 +58,13 @@ class Position{
 	public double rot;
 	public int midX;
 	public int midY;
-	public Position(double xm, double ym, double rm, int mx, int my){
+	public String name;
+	public Position(double xm, double ym, double rm, int mx, int my, String n){
 		x = xm;
 		y = ym;
 		rot = rm;
 		midX = mx;
 		midY = my;
+		name = n;
 	}
 }

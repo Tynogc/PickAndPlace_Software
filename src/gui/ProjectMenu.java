@@ -21,6 +21,7 @@ public class ProjectMenu extends AbstractMenu{
 	private PCB pcb;
 	
 	private CheckBox[] scale;
+	private CheckBox showName;
 	private int pcX;
 	private int pcY;
 	private int ulc;
@@ -57,6 +58,7 @@ public class ProjectMenu extends AbstractMenu{
 				scale[0].setState(true);
 				scale[1].setState(!true);
 				scale[2].setState(!true);
+				showName.setState(false);
 				redrawPcb();
 				ulc = 150;
 			}
@@ -69,6 +71,7 @@ public class ProjectMenu extends AbstractMenu{
 				scale[0].setState(!true);
 				scale[1].setState(true);
 				scale[2].setState(!true);
+				showName.setState(true);
 				redrawPcb();
 				ulc = 50;
 			}
@@ -81,6 +84,7 @@ public class ProjectMenu extends AbstractMenu{
 				scale[0].setState(!true);
 				scale[1].setState(!true);
 				scale[2].setState(true);
+				showName.setState(true);
 				redrawPcb();
 				ulc = 17;
 			}
@@ -88,6 +92,15 @@ public class ProjectMenu extends AbstractMenu{
 		add(scale[2]);
 		scale[2].setText("18:1");
 		scale[0].setState(true);
+		
+		showName = new CheckBox(100,630,"res/ima/cli/cbx/CB", 100) {
+			@Override
+			public void changed(boolean b) {
+				redrawPcb();
+			}
+		};
+		add(showName);
+		showName.setText("Show Name");
 		
 		pcbIma = new BufferedImage(600, 600, BufferedImage.TYPE_INT_ARGB);
 		
@@ -146,7 +159,6 @@ public class ProjectMenu extends AbstractMenu{
 
 	@Override
 	protected void uppdateIntern() {
-		// TODO Auto-generated method stub
 		
 	}
 
@@ -162,15 +174,15 @@ public class ProjectMenu extends AbstractMenu{
 		g.fillRect(0, 0, 600, 600);
 		if(scale[0].getState()){
 			g.translate(-pcX*2+300,-pcY*2+300);
-			painter[0].paint(g);
+			painter[0].paint(g, showName.getState());
 		}
 		if(scale[1].getState()){
 			g.translate(-pcX*6+300,-pcY*6+300);
-			painter[1].paint(g);
+			painter[1].paint(g, showName.getState());
 		}
 		if(scale[2].getState()){
 			g.translate(-pcX*18+300,-pcY*18+300);
-			painter[2].paint(g);
+			painter[2].paint(g, showName.getState());
 		}
 	}
 
