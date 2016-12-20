@@ -18,13 +18,14 @@ public class PcbPainter {
 			f = f.next;
 		}
 		bua = new BufferedImage[size];
+		pos = new Position[size];
 		size = 0;
 		f = p.components;
 		while (f != null) {
 			if(f.fp != null){
 				FootprintPainter fpp = new FootprintPainter(f.fp, scale, fill, c);
 				bua[size] = fpp.buffer;
-				pos[size] = new Position(f.fp.xPos*scale, f.fp.yPos*scale, f.fp.rotation, fpp.middleX, fpp.middleY);
+				pos[size] = new Position(f.fp.xPos*scale, f.fp.yPos*scale, Math.toRadians(f.fp.rotation), fpp.middleX, fpp.middleY);
 				size++;
 			}
 			f = f.next;
@@ -35,9 +36,9 @@ public class PcbPainter {
 		for (int i = 0; i < bua.length; i++) {
 			if(pos[i].x == Double.NaN)continue;
 			g.translate(pos[i].x, pos[i].y);
-			g.rotate(Math.toRadians(pos[i].rot));
+			g.rotate(-pos[i].rot);
 			g.drawImage(bua[i], -pos[i].midX, -pos[i].midY, null);
-			g.rotate(-Math.toRadians(pos[i].rot));
+			g.rotate(pos[i].rot);
 			g.setColor(Color.blue);
 			g.drawLine(10, 0, -10, 0);
 			g.drawLine(0, -10, 0, 10);

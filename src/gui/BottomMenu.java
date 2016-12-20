@@ -221,16 +221,16 @@ public class BottomMenu extends menu.AbstractMenu{
 		fKeyMarkerT = System.currentTimeMillis();
 		switch (key) {
 		case 5:
-			//B_ProgMenu();
+			//B_
 			break;
 		case 2:
 			//B_Map();
 			break;
 		case 3:
-			//B_Telem();
+			B_Project();
 			break;
 		case 1:
-			//B_CommMenu();
+			B_Overview();
 			break;
 		case 4:
 			B_runStop();
@@ -270,6 +270,14 @@ public class BottomMenu extends menu.AbstractMenu{
 		runBool = runOn;
 		run.setVisible(runOn);
 		stop.setVisible(!runOn);
+	}
+	
+	private void B_Project(){
+		GuiControle.setMiddleMenu(MenuStorage.project);
+	}
+	
+	private void B_Overview(){
+		GuiControle.setMiddleMenu(MenuStorage.overview);
 	}
 
 }

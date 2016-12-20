@@ -1,5 +1,5 @@
 *.class
 log/
 *.kicad_mod
-*.cicad_pcb
+*.kicad_pcb
 bin/
