@@ -6,6 +6,7 @@ import java.awt.Graphics;
 import java.io.File;
 
 import components.FootprintPainter;
+import components.kiCad.KiCadPcbImport;
 import status.PCBstate;
 import status.StatusControle;
 import main.SeyprisMain;
@@ -71,6 +72,7 @@ public class Overview extends AbstractMenu{
 				fpp = new FootprintPainter(
 						new components.kiCad.KiCadFileImport(new File("PLCC-44.kicad_mod")).footprint
 						,13.0,false,Color.red);
+				new KiCadPcbImport(new File("PowerDistribution.kicad_pcb"));
 			}
 		};
 		add(pcb1stat);

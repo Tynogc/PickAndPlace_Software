@@ -44,7 +44,17 @@ public class StoredComponent {
 	public static final int CHECK_EVERY = 1;
 	public static final int CHECK_NEVER = 2;
 	
+	public Reel reel;
+	public Tube tube;
+	public Tray tray;
+	public int container;
+	public static final int CONTAINER_REEL = 0;
+	public static final int CONTAINER_TUBE = 1;
+	public static final int CONTAINER_TRAY = 2;
+	
 	public FootprintDetectionHints getDetectionHints(){
 		return new FootprintDetectionHints(fp, detectionHint, pue_Percent, pue_Number);
 	}
+	
+	
 }
