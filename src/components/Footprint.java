@@ -5,9 +5,24 @@ public class Footprint {
 	public PadList pads;
 	
 	public String name;
+	public String reference;
+	
+	/**
+	 * xPos and yPos will be NaN unless loaded from PDB-File
+	 * DO NOT USE for FP-Detection
+	 */
+	public double xPos;
+	/**
+	 * xPos and yPos will be NaN unless loaded from PDB-File
+	 * DO NOT USE for FP-Detection
+	 */
+	public double yPos;
+	public double rotation;
 	
 	public Footprint(){
 		pads = new PadList();
+		xPos = Double.NaN;
+		yPos = Double.NaN;
 	}
 	
 	public void addPad(Pad p){

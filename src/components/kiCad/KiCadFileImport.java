@@ -45,6 +45,15 @@ public class KiCadFileImport {
 		Runtime.getRuntime().gc();
 	}
 	
+	public KiCadFileImport(String s){
+		footprint = new Footprint();
+		try {
+			textTree(s);
+		} catch (Exception e) {
+			debug.Debug.println("* ERROR converting Footprint"+e.getMessage(), debug.Debug.ERROR);
+		}
+	}
+	
 	private void textTree(String s){
 		int subSequence = 0;
 		while (s.length()>0) {
@@ -87,15 +96,14 @@ public class KiCadFileImport {
 			return t;
 		}
 		
-		
 		return 1;
 	}
 	
 	private void subseq2(String s){
-		System.out.println(s);
+		//System.out.println(s);
 		if(s.startsWith("layer ")){
 			s = s.substring(6);
-			layer = new String(s.substring(0, s.length()-1));
+			layer = new String(s);
 			System.out.println("->"+layer);
 			return;
 		}
@@ -103,6 +111,29 @@ public class KiCadFileImport {
 			processPad(s);
 			pad = null;
 			return;
+		}
+		if(s.startsWith("at ")){
+			String[] st = s.split(" ");
+			try {
+				double x = Double.parseDouble(st[1]);
+				double y = Double.parseDouble(st[2]);
+				double r = 0;
+				if(st.length>=4)
+					r = Double.parseDouble(st[3]);
+				footprint.xPos = x;
+				footprint.yPos = y;
+				footprint.rotation = r;
+			} catch (Exception e) {
+				debug.Debug.println("Problem loading Footprint (at)"+e.toString());
+			}
+			
+			return;
+		}
+		if(s.startsWith("fp_text reference ")){
+			String[] st = s.split(" ");
+			if(st.length>=3)
+				footprint.reference = st[2];
+			System.out.println("reference: "+footprint.reference);
 		}
 	}
 	
@@ -115,7 +146,7 @@ public class KiCadFileImport {
 		
 		while(s.length()>0){
 			if(s.startsWith("smd ")){
-				//TODO
+				//TODO rect, oval, ect
 				s = s.substring(3);
 				continue;
 			}
