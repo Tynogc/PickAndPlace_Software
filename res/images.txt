@@ -142,3 +142,5 @@ res/ima/cli/Gskd.png
 res/ima/cli/Gskd.png
 res/ima/mbe/warn.png
 res/ima/mbe/warn.png
+res/ima/mbe/mLoad.png
+res/ima/mbe/mLoad.png

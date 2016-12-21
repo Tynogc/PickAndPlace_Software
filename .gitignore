@@ -3,3 +3,4 @@ log/
 *.kicad_mod
 *.kicad_pcb
 bin/
+*.component

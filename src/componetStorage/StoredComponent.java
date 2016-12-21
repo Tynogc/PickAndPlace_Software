@@ -5,7 +5,7 @@ import components.FootprintDetectionHints;
 
 public class StoredComponent implements utility.SaveAble{
 
-	public String name;
+	public String name = "EMPTY";
 	//Unique ID of the Part
 	public String id;
 	
@@ -63,7 +63,7 @@ public class StoredComponent implements utility.SaveAble{
 
 	@Override
 	public void save(String fp) {
-		// TODO 
+		SCloadSave.save(this, fp);
 	}
 	
 	

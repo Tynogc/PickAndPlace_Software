@@ -37,28 +37,30 @@ public class Settings {
 	}
 	
 	public void loadFromFile(String fp){
-		try{
+		try {
 			FileReader fr = new FileReader(fp);
-		    BufferedReader br = new BufferedReader(fr);
-		    
-		    int i = 0;
-		    for (; i < str.length; i++) {
+			BufferedReader br = new BufferedReader(fr);
+
+			int i = 0;
+			for (; i < str.length; i++) {
 				String s = br.readLine();
-				if(s == null)break;
-				if(s.length()<1)break;
+				if (s == null)
+					break;
+				if (s.length() < 1)
+					break;
 				str[i] = s;
 			}
-		    debug.Debug.println(" System settings: "+i+" Lines loaded!");
-		    
-		    br.close();
-			}catch (FileNotFoundException e) {
-				debug.Debug.println(e.getMessage(), debug.Debug.ERROR);
-				err = true;
-				return;
-			}catch (IOException e) {
-				debug.Debug.println(e.getMessage(), debug.Debug.ERROR);
-				err = true;
-			}
+			debug.Debug.println(" System settings: " + i + " Lines loaded!");
+
+			br.close();
+		} catch (FileNotFoundException e) {
+			debug.Debug.println(e.getMessage(), debug.Debug.ERROR);
+			err = true;
+			return;
+		} catch (IOException e) {
+			debug.Debug.println(e.getMessage(), debug.Debug.ERROR);
+			err = true;
+		}
 	}
 	
 	public void saveToFile(String fp){

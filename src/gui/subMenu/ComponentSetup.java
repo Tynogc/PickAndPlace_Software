@@ -153,7 +153,7 @@ public class ComponentSetup extends gui.MoveMenu{
 		};
 		valOK = true;
 		
-		name = new TextEnterButton(30,660,150,20,Color.white,main.SeyprisMain.getKL()) {
+		name = new TextEnterButton(30,670,150,20,Color.white,main.SeyprisMain.getKL()) {
 			@Override
 			protected void textEntered(String text) {
 				reel.name = text;
@@ -161,7 +161,7 @@ public class ComponentSetup extends gui.MoveMenu{
 		};
 		add(name);
 		
-		barCode = new TextEnterButton(30,700,340,20,Color.white,main.SeyprisMain.getKL()) {
+		barCode = new TextEnterButton(30,710,340,20,Color.white,main.SeyprisMain.getKL()) {
 			@Override
 			protected void textEntered(String text) {
 				reel.id = text;
@@ -298,7 +298,8 @@ public class ComponentSetup extends gui.MoveMenu{
 		g.drawString("Pickup-Error", 20, 577);
 		g.drawString("Check Footprint", 20, 497);
 		g.drawString("Check Part befor Picking", 200, 497);
-		g.drawString("Barcode", 20, 697);
+		g.drawString("Barcode", 20, 707);
+		g.drawString("Component Name", 20, 667);
 		g.drawString("Hight in mm", 71, 365);
 		g.drawString("Percent detected", 71, 605);
 	}
@@ -351,6 +352,7 @@ public class ComponentSetup extends gui.MoveMenu{
 	private void save(){
 		reel.id = barCode.getText();
 		ThisFileAlreadyExists.saveFile(reel, "user/components/"+reel.id+".component", xPos+100, yPos+100);
+		gui.GuiControle.addMenu(new ComponentLibrary());
 	}
 	
 }
