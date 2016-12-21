@@ -40,6 +40,8 @@ public class ComponentSetup extends gui.MoveMenu{
 	private CheckBox checkPartReeledBlack;
 	
 	private boolean valOK;
+	
+	private Button save;
 
 	public ComponentSetup(int x, int y, StoredComponent s) {
 		super(x, y, PicLoader.pic.getImage("res/ima/mbe/m400x800.png"), "Setup Component");
@@ -61,6 +63,23 @@ public class ComponentSetup extends gui.MoveMenu{
 		loadFp.setText("Load Footprint");
 		loadFp.setTextColor(Button.gray);
 		add(loadFp);
+		
+		save = new Button(130,750,"res/ima/cli/B") {
+			
+			@Override
+			protected void uppdate() {}
+			
+			@Override
+			protected void isFocused() {}
+			
+			@Override
+			protected void isClicked() {
+				save();
+			}
+		};
+		save.setText("Save to File");
+		save.setTextColor(Button.gray);
+		add(save);
 		
 		Button loadTool = new Button(230,200,"res/ima/cli/G") {
 			
@@ -134,10 +153,10 @@ public class ComponentSetup extends gui.MoveMenu{
 		};
 		valOK = true;
 		
-		name = new TextEnterButton(230,70,80,20,Color.white,main.SeyprisMain.getKL()) {
+		name = new TextEnterButton(30,660,150,20,Color.white,main.SeyprisMain.getKL()) {
 			@Override
 			protected void textEntered(String text) {
-				
+				reel.name = text;
 			}
 		};
 		add(name);
@@ -145,7 +164,7 @@ public class ComponentSetup extends gui.MoveMenu{
 		barCode = new TextEnterButton(30,700,340,20,Color.white,main.SeyprisMain.getKL()) {
 			@Override
 			protected void textEntered(String text) {
-				
+				reel.id = text;
 			}
 		};
 		add(barCode);
@@ -153,7 +172,9 @@ public class ComponentSetup extends gui.MoveMenu{
 		hight = new TextEnterButton(71,370,100,20,Color.white,main.SeyprisMain.getKL()) {
 			@Override
 			protected void textEntered(String text) {
-				checkValue(this);
+				double d = checkValue(this);
+				if(d!=Double.NaN)
+					reel.hight = d;
 			}
 		};
 		add(hight);
@@ -161,7 +182,9 @@ public class ComponentSetup extends gui.MoveMenu{
 		pue_validation = new TextEnterButton(71,610,100,20,Color.white,main.SeyprisMain.getKL()) {
 			@Override
 			protected void textEntered(String text) {
-				checkValue(this);
+				double d = checkValue(this);
+				if(d!=Double.NaN)
+					reel.pue_Percent = d;
 			}
 		};
 		add(pue_validation);
@@ -193,6 +216,7 @@ public class ComponentSetup extends gui.MoveMenu{
 			@Override
 			public void changed(boolean b) {
 				toggledCPP(b);
+				reel.checkPartPicked = b;
 			}
 		};
 		add(checkPartPicked);
@@ -201,7 +225,7 @@ public class ComponentSetup extends gui.MoveMenu{
 		checkPartReeledBlack = new CheckBox(262,500,"res/ima/cli/cbx/CB",100) {
 			@Override
 			public void changed(boolean b) {
-				
+				reel.reelBlack = b;
 			}
 		};
 		add(checkPartReeledBlack);
@@ -209,7 +233,7 @@ public class ComponentSetup extends gui.MoveMenu{
 		
 		checkPartReeled = new DropDownMenu(262,530,100){
 			protected void changed(int i) {
-				
+				reel.checkPartBeforPicking = i;
 		};};
 		checkPartReeled.addSubButton(new DropDownButton(100, 20, "Check at Start"), StoredComponent.CHECK_FIRST);
 		checkPartReeled.addSubButton(new DropDownButton(100, 20, "Check every Time"), StoredComponent.CHECK_EVERY);
@@ -218,6 +242,14 @@ public class ComponentSetup extends gui.MoveMenu{
 		
 		add(pue_action);
 		add(orientation);
+		
+		checkPartReeled.setCurrentlyActiv(reel.checkPartBeforPicking);
+		checkPartPicked.setState(reel.checkPartPicked);
+		hight.setText(""+reel.hight);
+		orientation.setCurrentlyActiv(reel.partOrientation);
+		name.setText(reel.name);
+		barCode.setText(reel.id);
+		pue_validation.setText(""+reel.pue_Percent);
 	}
 	
 	@Override
@@ -314,6 +346,11 @@ public class ComponentSetup extends gui.MoveMenu{
 			gui.GuiControle.addMenu(new FootprintSetup(xPos+30, yPos+50, reel));
 		if(q == 2)
 			gui.GuiControle.addMenu(new ReelSetup(xPos+30, yPos+50, reel));
+	}
+	
+	private void save(){
+		reel.id = barCode.getText();
+		ThisFileAlreadyExists.saveFile(reel, "user/components/"+reel.id+".component", xPos+100, yPos+100);
 	}
 	
 }

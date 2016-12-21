@@ -13,8 +13,29 @@ public class PCB {
 		components.add(f);
 	}
 	
+	public Footprint[] getFParray(){
+		int s = 0;
+		FPList f = components;
+		while (f!=null) {
+			if(f.fp!=null)
+				s++;
+			f = f.next;
+		}
+		Footprint[] fpa = new Footprint[s];
+		s = 0;
+		f = components;
+		while (f!=null) {
+			if(f.fp!=null){
+				fpa[s] = f.fp;
+				s++;
+			}
+			f = f.next;
+		}
+		
+		return fpa;
+	}
+	
 }
-
 class FPList{
 	public FPList next;
 	public Footprint fp;

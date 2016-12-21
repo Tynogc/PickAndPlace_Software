@@ -3,7 +3,7 @@ package componetStorage;
 import components.Footprint;
 import components.FootprintDetectionHints;
 
-public class StoredComponent {
+public class StoredComponent implements utility.SaveAble{
 
 	public String name;
 	//Unique ID of the Part
@@ -31,7 +31,6 @@ public class StoredComponent {
 	//Footprint
 	public Footprint fp;
 	public double hight;
-	public String footprintFilepath;
 	
 	public int partOrientation;
 	public static final int ORIENTATION_0_DEGREE = 0;//UP
@@ -43,6 +42,7 @@ public class StoredComponent {
 	public int toolToUse;
 	
 	//Picker check
+	public boolean checkPartPicked = true;
 	public boolean reelBlack;
 	public int checkPartBeforPicking;
 	public static final int CHECK_FIRST = 0;
@@ -59,6 +59,11 @@ public class StoredComponent {
 	
 	public FootprintDetectionHints getDetectionHints(){
 		return new FootprintDetectionHints(fp, detectionHint, pue_Percent, pue_Number);
+	}
+
+	@Override
+	public void save(String fp) {
+		// TODO 
 	}
 	
 	

@@ -140,3 +140,5 @@ res/ima/cli/Gskc.png
 res/ima/cli/Gskf.png
 res/ima/cli/Gskd.png
 res/ima/cli/Gskd.png
+res/ima/mbe/warn.png
+res/ima/mbe/warn.png

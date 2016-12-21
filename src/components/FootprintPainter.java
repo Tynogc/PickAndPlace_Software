@@ -49,14 +49,14 @@ public class FootprintPainter {
 		PadList pad = p.pads;
 		do {
 			if(pad.pad != null)
-				paintPad(pad.pad, scale, g, rotation);
+				paintPad(pad.pad, scale, g, rotation, p.rotation);
 			
 			pad = pad.next;
 		} while (pad!= null);
 	}
 	
-	private void paintPad(Pad p, double s, Graphics g, int rot){
-		int[][] xyi = FootprintSize.getPadPosition(p, s);
+	private void paintPad(Pad p, double s, Graphics g, int rot, double rotOfFp){
+		int[][] xyi = FootprintSize.getPadPosition(p, s, rotOfFp);
 		int[] xi = xyi[0];
 		int[] yi = xyi[1];
 		

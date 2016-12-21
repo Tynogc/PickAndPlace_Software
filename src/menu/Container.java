@@ -93,6 +93,6 @@ public class Container implements ButtonInterface{
 	}
 	
 	public void addInContainer(ButtonInterface b){
-		next = next.add(b);
+		content = content.add(b);
 	}
 }

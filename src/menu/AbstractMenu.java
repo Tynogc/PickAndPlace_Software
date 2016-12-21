@@ -45,7 +45,7 @@ public abstract class AbstractMenu {
 		controle = c;
 	}
 	
-	public void add(Button b){
+	public void add(ButtonInterface b){
 		buttons = buttons.add(b);
 	}
 	

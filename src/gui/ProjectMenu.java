@@ -12,19 +12,30 @@ import components.kiCad.KiCadPcbImport;
 import menu.AbstractMenu;
 import menu.Button;
 import menu.CheckBox;
+import menu.Container;
 import menu.DataFiled;
+import menu.ScrollBar;
+import project.PCBcomponentToReel;
+import project.ProjectFile;
 
 public class ProjectMenu extends AbstractMenu{
 
 	private BufferedImage pcbIma;
 	private PcbPainter[] painter;
 	private PCB pcb;
+	private ProjectFile project;
 	
 	private CheckBox[] scale;
 	private CheckBox showName;
 	private int pcX;
 	private int pcY;
 	private int ulc;
+	
+	private Container comToReel_container;
+	private ScrollBar scr;
+	private CompDataField[] coms;
+	private int position;
+	private static final int numOfButtons = 20;
 	
 	public ProjectMenu() {
 		super(0,70,1600,1000);
@@ -39,13 +50,7 @@ public class ProjectMenu extends AbstractMenu{
 			protected void isFocused() {}
 			@Override
 			protected void isClicked() {
-				pcb = new KiCadPcbImport(new File("A4960 Devboard.kicad_pcb")).pcb;
-				painter = new PcbPainter[]{
-						new PcbPainter(pcb, 2, Color.red, true),
-						new PcbPainter(pcb, 6, Color.red, true),
-						new PcbPainter(pcb, 18, Color.red, true)
-				};
-				redrawPcb();
+				loadPCB(new File("PowerDistribution.kicad_pcb"));
 			}
 		};
 		add(load);
@@ -155,16 +160,28 @@ public class ProjectMenu extends AbstractMenu{
 		pos.setText("Pos 0 0");
 		pcX = ulc;
 		pcY = ulc;
+		
+		comToReel_container = new Container(10, 30);
+		coms = new CompDataField[numOfButtons];
+		for (int i = 0; i < coms.length; i++) {
+			coms[i] = new CompDataField(0,i*20);
+			comToReel_container.addInContainer(coms[i]);
+		}
+		add(comToReel_container);
 	}
 
 	@Override
 	protected void uppdateIntern() {
-		
+		if(scr!=null)
+		if(position != scr.getScrolled())
+			scrolled();
 	}
 
 	@Override
 	protected void paintIntern(Graphics g) {
 		g.drawImage(pcbIma, 400, 0, null);
+		g.setColor(Color.darkGray);
+		g.drawRect(400, 0, 600, 600);
 	}
 	
 	private void redrawPcb(){
@@ -185,5 +202,75 @@ public class ProjectMenu extends AbstractMenu{
 			painter[2].paint(g, showName.getState());
 		}
 	}
+	
+	private void loadPCB(File f){
+		pcb = new KiCadPcbImport(f).pcb;
+		painter = new PcbPainter[]{
+				new PcbPainter(pcb, 2, Color.red, true),
+				new PcbPainter(pcb, 6, Color.red, true),
+				new PcbPainter(pcb, 18, Color.red, false)
+		};
+		project = new ProjectFile(pcb);
+		redrawPcb();
+		if(scr != null){
+			remove(scr);
+		}
+		if(project.size<=numOfButtons){
+			scr = new ScrollBar(260, 30, 400, 20, 40);
+			scr.setDisabled(true);
+		}else
+			scr = new ScrollBar(260, 30, 400, numOfButtons, project.size);
+		add(scr);
+		scrolled();
+	}
+	
+	private void scrolled(){
+		position = scr.getScrolled();
+		for (int i = 0; i < coms.length; i++) {
+			if(position+i<project.size){
+				coms[i].updatePCTR(project.componentMatch[position+i]);
+			}else{
+				coms[i].updatePCTR(null);
+			}
+		}
+	}
+}
 
+class CompDataField extends DataFiled{
+
+	public PCBcomponentToReel pcbToReel;
+	
+	public CompDataField(int x, int y) {
+		super(x, y, 250,20,Color.white);
+		rebindText();
+	}
+
+	@Override
+	protected void isClicked() {
+		if(pcbToReel != null){
+			//FIXME
+		}
+	}
+
+	@Override
+	protected void uppdate() {}
+	
+	@Override
+	public void longTermUpdate() {
+		super.longTermUpdate();
+		rebindText();
+	}
+	
+	public void updatePCTR(PCBcomponentToReel p){
+		pcbToReel = p;
+		rebindText();
+	}
+	
+	private void rebindText(){
+		if(pcbToReel == null){
+			setText("---");
+			return;
+		}
+		setText(pcbToReel.fp.reference+" ");
+	}
 }

@@ -117,12 +117,13 @@ public class KiCadFileImport {
 			try {
 				double x = Double.parseDouble(st[1]);
 				double y = Double.parseDouble(st[2]);
-				double r = 0;
+				double r = 0.0;
 				if(st.length>=4)
 					r = Double.parseDouble(st[3]);
 				footprint.xPos = x;
 				footprint.yPos = y;
 				footprint.rotation = r;
+				System.out.println("->at "+x+" "+y+" "+r);
 			} catch (Exception e) {
 				debug.Debug.println("Problem loading Footprint (at)"+e.toString());
 			}
@@ -198,7 +199,8 @@ public class KiCadFileImport {
 				if(st[i].contains(layer) ||
 						st[i].contains("*.Cu")){
 					footprint.addPad(pad);
-					System.out.println("->"+pad.name+" x"+pad.xPos+" y"+pad.yPos+" Size x"+pad.xSize+" y"+pad.ySize);
+					System.out.println("->"+pad.name+" x"+pad.xPos+" y"+pad.yPos+" Size x"+
+					pad.xSize+" y"+pad.ySize+" r"+pad.rotation);
 				}
 			}
 		}
