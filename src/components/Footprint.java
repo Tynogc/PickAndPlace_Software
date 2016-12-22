@@ -2,7 +2,7 @@ package components;
 
 import java.io.PrintWriter;
 
-public class Footprint {
+public class Footprint{
 
 	public PadList pads;
 	
@@ -33,7 +33,7 @@ public class Footprint {
 	
 	public void save(PrintWriter p){
 		p.println("(module "+name+" (layer F.Cu)");
-		if(xPos != Double.NaN || (int)(rotation*10.0) != 0)
+		if(!Double.isNaN(xPos) || rotation != 0.0)
 			p.println("(at "+xPos+" "+yPos+" "+rotation+")");
 		p.println("(fp_text reference "+reference+")");
 		
@@ -42,7 +42,7 @@ public class Footprint {
 			Pad pad = pl.pad;
 			if(pad!=null){
 				p.println("(pad "+pad.name+" smd rect (at "+pad.xPos+" "+pad.yPos+" "+
-						(pad.rotation+rotation)+") (size "+pad.xSize+" "+pad.ySize+" (layers F.Cu))");
+						(pad.rotation+rotation)+") (size "+pad.xSize+" "+pad.ySize+") (layers F.Cu))");
 			}
 			pl = pl.next;
 		}

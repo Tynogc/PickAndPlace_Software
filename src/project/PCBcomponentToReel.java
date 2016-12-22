@@ -6,10 +6,10 @@ import components.Footprint;
 
 public class PCBcomponentToReel {
 
-	public final Footprint fp;
+	public final PlacementInformation fp;
 	public Component cp;
 	
 	public PCBcomponentToReel(final Footprint f){
-		fp = f;
+		fp = new PlacementInformation(f);
 	}
 }

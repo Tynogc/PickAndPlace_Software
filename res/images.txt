@@ -144,3 +144,10 @@ res/ima/mbe/warn.png
 res/ima/mbe/warn.png
 res/ima/mbe/mLoad.png
 res/ima/mbe/mLoad.png
+res/ima/cli/spb/bro/Bn.png
+res/ima/cli/spb/bro/Bc.png
+res/ima/cli/spb/bro/Bf.png
+res/ima/cli/spb/bro/Bd.png
+res/ima/cli/spb/bro/Bd.png
+res/ima/cli/spb/bro/Folder.png
+res/ima/cli/spb/bro/Folder.png

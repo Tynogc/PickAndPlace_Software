@@ -142,6 +142,7 @@ public class SCloadSave {
 				writer.close(); 
 			} 
 		}
+		debug.Debug.println("Componet Saved!", debug.Debug.MASSAGE);
 	}
 	
 	private static void saveValues(StoredComponent s, PrintWriter p){

@@ -1,5 +1,6 @@
 package gui.subMenu;
 
+import java.awt.Color;
 import java.awt.Graphics;
 import java.awt.image.BufferedImage;
 import java.io.BufferedReader;
@@ -10,6 +11,7 @@ import java.io.FileReader;
 import java.io.FilenameFilter;
 import java.io.IOException;
 
+import main.Fonts;
 import main.PicLoader;
 import menu.Button;
 import menu.ScrollBar;
@@ -25,9 +27,11 @@ public class ComponentLibrary extends MoveMenu{
 	private int scrollPos;
 	
 	private ScrollBar scr;
-	private static final int scrollSize = 30;
+	private static final int scrollSize = 24;
 	
 	private DataPoint[] ddp;
+	
+	private String directory;
 	
 	public ComponentLibrary() {
 		super(400,100,PicLoader.pic.getImage("res/ima/mbe/mLoad.png"), "Component Library");
@@ -38,12 +42,16 @@ public class ComponentLibrary extends MoveMenu{
 			add(ddp[i]);
 		}
 		
+		directory = "";
+		
 		loadToFile(new File("user/components"));
 	}
 
 	@Override
 	protected void paintSecond(Graphics g) {
-		
+		g.setColor(Color.white);
+		g.setFont(Fonts.font14);
+		g.drawString(directory, 30, 67);
 	}
 
 	@Override
@@ -103,10 +111,10 @@ public class ComponentLibrary extends MoveMenu{
 		if(scr != null)
 			remove(scr);
 		if(tags.length<=scrollSize){
-			scr = new ScrollBar(200, 70, 700, 10, 20);
+			scr = new ScrollBar(310, 70, 700, 10, 20);
 			scr.setDisabled(true);
 		}else{
-			scr = new ScrollBar(200, 70, 700, scrollSize, tags.length);
+			scr = new ScrollBar(310, 70, 700, scrollSize, tags.length);
 		}
 		add(scr);
 		
@@ -121,6 +129,13 @@ public class ComponentLibrary extends MoveMenu{
 				ddp[j].setFTS(null);
 		}
 	}
+	
+	public void clickedOn(File f){
+		if(f.isDirectory()){
+			directory += "/"+f.getName();
+			loadToFile(f);
+		}
+	}
 
 }
 class DataPoint extends Button{
@@ -129,24 +144,33 @@ class DataPoint extends Button{
 	public FileToSearch fts;
 	
 	public DataPoint(int x, int y, ComponentLibrary cl) {
-		super(x, y, "res/ima/cli/G");
+		super(x, y, "res/ima/cli/spb/bro/B");
 		comLib = cl;
+		setBold(false);
+		setTextColor(Color.black);
 	}
 	
 	public void setFTS(FileToSearch f){
 		if(f == null){
 			setText("---");
-			setSecondLine("---");
+			setSecondLine(null);
 		}else{
-			setText(f.id);
-			setSecondLine(f.name);
+			setText(f.name);
+			setSecondLine(f.id);
+			if(f.f.isDirectory()){
+				setSecondLine("FOLDER");
+				state1 = PicLoader.pic.getImage("res/ima/cli/spb/bro/Folder.png");
+			}else{
+				state1 = PicLoader.pic.getImage("res/ima/cli/spb/bro/Bn.png");
+			}
 		}
 		fts = f;
 	}
 
 	@Override
 	protected void isClicked() {
-		
+		if(fts != null)
+			comLib.clickedOn(fts.f);
 	}
 
 	@Override
