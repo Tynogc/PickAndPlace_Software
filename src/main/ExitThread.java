@@ -98,6 +98,7 @@ public class ExitThread extends Thread{
 			}
 			writer.println("------------------------------");
 			writer.println("Closing Video Conections...:");
+			if(vcs!=null)
 			for (int i = 0; i < vcs.length; i++) {
 				if(vcs[i]!=null){
 					vcs[i].release();
