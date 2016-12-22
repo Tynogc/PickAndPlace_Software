@@ -73,18 +73,18 @@ public class GuiControle {
 			clicked = true;
 		}
 		
-		if(debugMenu.mouseState(mouse.x, mouse.y, left, right)){
-			left = false;
-			right = false;
-			clicked = true;
-		}
-		
 		for (int i = menus.length-1; i >= 0; i--) {
 			if(menus[i].mouseState(mouse.x, mouse.y, left, right)){
 				left = false;
 				right = false;
 				clicked = true;
 			}
+		}
+		
+		if(debugMenu.mouseState(mouse.x, mouse.y, left, right)){
+			left = false;
+			right = false;
+			clicked = true;
 		}
 		
 		if(topMenu.mouseState(mouse.x, mouse.y, left, right)){
@@ -131,6 +131,17 @@ public class GuiControle {
 	}
 	
 	public static boolean addMenu(AbstractMenu  m){
+		//shutdown old menus
+		for (int i = menus.length-1; i >= 0; i--) {
+			if(!menus[i].isActiv()){
+				MenuControle mc = menus[i];
+				for (int j = i; j < menus.length-1; j++) {
+					menus[j] = menus[j+1];
+				}
+				menus[menus.length-1] = mc;
+			}
+		}
+		
 		for (int i = 0; i < menus.length; i++) {
 			if(!menus[i].isActiv()){
 				menus[i].setActivMenu(m);
