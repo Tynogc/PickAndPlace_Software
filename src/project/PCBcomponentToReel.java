@@ -7,7 +7,8 @@ import components.Footprint;
 public class PCBcomponentToReel {
 
 	public final PlacementInformation fp;
-	public Component cp;
+	public String cpName;
+	public String cpId;
 	
 	public PCBcomponentToReel(final Footprint f){
 		fp = new PlacementInformation(f);

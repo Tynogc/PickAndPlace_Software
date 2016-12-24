@@ -3,9 +3,11 @@ package gui.subMenu;
 import java.awt.Color;
 import java.awt.Graphics;
 import java.awt.image.BufferedImage;
+import java.io.File;
 
 import javax.swing.JFileChooser;
 
+import utility.FileLoader;
 import components.FootprintPainter;
 import components.FootprintPainterToShow;
 import componetStorage.StoredComponent;
@@ -34,6 +36,7 @@ public class ComponentSetup extends gui.MoveMenu{
 	private DropDownMenu pue_action;
 	
 	private TextEnterButton barCode;
+	private TextEnterButton filepathBu;
 	
 	private CheckBox checkPartPicked;
 	private DropDownMenu checkPartReeled;
@@ -42,6 +45,12 @@ public class ComponentSetup extends gui.MoveMenu{
 	private boolean valOK;
 	
 	private Button save;
+	
+	private String filepath;
+	
+	private FileLoader actionDone;
+	
+	private boolean saveNextTime = false;
 
 	public ComponentSetup(int x, int y, StoredComponent s) {
 		super(x, y, PicLoader.pic.getImage("res/ima/mbe/m400x800.png"), "Setup Component");
@@ -64,23 +73,6 @@ public class ComponentSetup extends gui.MoveMenu{
 		loadFp.setTextColor(Button.gray);
 		add(loadFp);
 		
-		save = new Button(130,750,"res/ima/cli/B") {
-			
-			@Override
-			protected void uppdate() {}
-			
-			@Override
-			protected void isFocused() {}
-			
-			@Override
-			protected void isClicked() {
-				save();
-			}
-		};
-		save.setText("Save to File");
-		save.setTextColor(Button.gray);
-		add(save);
-		
 		Button loadTool = new Button(230,200,"res/ima/cli/G") {
 			
 			@Override
@@ -91,7 +83,7 @@ public class ComponentSetup extends gui.MoveMenu{
 			
 			@Override
 			protected void isClicked() {
-				//TODO...
+				//TODO ...
 			}
 		};
 		loadTool.setText("Select Tool");
@@ -168,6 +160,14 @@ public class ComponentSetup extends gui.MoveMenu{
 			}
 		};
 		add(barCode);
+		filepathBu = new TextEnterButton(30,750,100,20,Color.white,main.SeyprisMain.getKL()) {
+			@Override
+			protected void textEntered(String text) {
+				filepath = text;
+			}
+		};
+		add(filepathBu);
+		filepathBu.setText("");
 		
 		hight = new TextEnterButton(71,370,100,20,Color.white,main.SeyprisMain.getKL()) {
 			@Override
@@ -250,6 +250,23 @@ public class ComponentSetup extends gui.MoveMenu{
 		name.setText(reel.name);
 		barCode.setText(reel.id);
 		pue_validation.setText(""+reel.pue_Percent);
+		
+		save = new Button(130,750,"res/ima/cli/B") {
+			
+			@Override
+			protected void uppdate() {}
+			
+			@Override
+			protected void isFocused() {}
+			
+			@Override
+			protected void isClicked() {
+				saveNextTime = true;
+			}
+		};
+		save.setText("Save to File");
+		save.setTextColor(Button.gray);
+		add(save);
 	}
 	
 	@Override
@@ -299,6 +316,7 @@ public class ComponentSetup extends gui.MoveMenu{
 		g.drawString("Check Footprint", 20, 497);
 		g.drawString("Check Part befor Picking", 200, 497);
 		g.drawString("Barcode", 20, 707);
+		g.drawString("Filepath", 20, 747);
 		g.drawString("Component Name", 20, 667);
 		g.drawString("Hight in mm", 71, 365);
 		g.drawString("Percent detected", 71, 605);
@@ -306,13 +324,15 @@ public class ComponentSetup extends gui.MoveMenu{
 
 	@Override
 	protected boolean close() {
-		// TODO Auto-generated method stub
 		return true;
 	}
 
 	@Override
 	protected void uppdateIntern() {
-		// TODO Auto-generated method stub
+		if(saveNextTime){
+			save();
+			saveNextTime = false;
+		}
 		
 	}
 	
@@ -351,8 +371,31 @@ public class ComponentSetup extends gui.MoveMenu{
 	
 	private void save(){
 		reel.id = barCode.getText();
-		ThisFileAlreadyExists.saveFile(reel, "user/components/"+reel.id+".component", xPos+100, yPos+100);
-		gui.GuiControle.addMenu(new ComponentLibrary());
+		reel.name = name.getText();
+		filepath = filepathBu.getText();
+		double d = checkValue(hight);
+		if(d!=Double.NaN)
+			reel.hight = d;
+		d = checkValue(pue_validation);
+		if(d!=Double.NaN)
+			reel.pue_Percent = d;
+		
+		if(filepath.endsWith("/"))
+			filepath = filepath.substring(0,filepath.length()-1);
+		File f = new File("user/components/"+filepath);
+		if(!f.exists())
+			f.mkdirs();
+		ThisFileAlreadyExists.saveFile(reel, "user/components/"+filepath+"/"+reel.id+".component",
+				xPos+100, yPos+100, actionDone);
+	}
+	
+	public void setActionDone(FileLoader f){
+		 actionDone = f;
+	}
+	
+	public void setFilePath(String f){
+		filepath = f;
+		filepathBu.setText(f);
 	}
 	
 }

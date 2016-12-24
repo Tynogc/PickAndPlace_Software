@@ -43,7 +43,7 @@ public class TopMenu extends AbstractMenu{
 			
 			@Override
 			protected void isClicked() {
-				//userInterface.GuiControle.setSecondMenu(userInterface.GuiControle.comMenu);
+				GuiControle.setMiddleMenu(MenuStorage.setup);
 			}
 		};
 		add(b1);
@@ -62,7 +62,7 @@ public class TopMenu extends AbstractMenu{
 			
 			@Override
 			protected void isClicked() {
-				//userInterface.GuiControle.setSecondMenu(userInterface.GuiControle.telemetry);
+				GuiControle.setMiddleMenu(MenuStorage.project);
 			}
 		};
 		add(b2);

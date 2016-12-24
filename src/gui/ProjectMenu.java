@@ -9,6 +9,7 @@ import java.io.File;
 import components.PCB;
 import components.PcbPainter;
 import components.kiCad.KiCadPcbImport;
+import componetStorage.StoredComponent;
 import menu.AbstractMenu;
 import menu.Button;
 import menu.CheckBox;
@@ -248,7 +249,14 @@ class CompDataField extends DataFiled{
 	@Override
 	protected void isClicked() {
 		if(pcbToReel != null){
-			//FIXME
+			GuiControle.addMenu(new gui.subMenu.ComponentBrowser(30,30){
+				@Override
+				public void loadedComp(StoredComponent s) {
+					pcbToReel.cpName = s.name;
+					pcbToReel.cpId = s.id;
+					rebindText();
+				}
+			});
 		}
 	}
 
@@ -271,6 +279,7 @@ class CompDataField extends DataFiled{
 			setText("---");
 			return;
 		}
-		setText(pcbToReel.fp.reference+" ");
+		setText(pcbToReel.fp.reference+" "+pcbToReel.cpName);
+		//FIXME setSubtext(pcbToReel.cpId);
 	}
 }

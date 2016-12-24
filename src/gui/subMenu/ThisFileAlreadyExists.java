@@ -9,11 +9,12 @@ import gui.GuiControle;
 import gui.MoveMenu;
 import main.PicLoader;
 import menu.Button;
+import utility.FileLoader;
 import utility.SaveAble;
 
 public class ThisFileAlreadyExists extends MoveMenu{
 
-	public ThisFileAlreadyExists(int x, int y, final SaveAble s, final String fp) {
+	public ThisFileAlreadyExists(int x, int y, final SaveAble s, final String fp, final FileLoader fl) {
 		super(x, y, PicLoader.pic.getImage("res/ima/mbe/warn.png"), fp+" already Exists!");
 		Button b1 = new Button(100,140,"res/ima/cli/G") {
 			@Override
@@ -24,6 +25,8 @@ public class ThisFileAlreadyExists extends MoveMenu{
 			@Override
 			protected void isClicked() {
 				s.save(fp);
+				if(fl != null)
+					fl.fileLoaded(new File(fp));
 			}
 		};
 		b1.setText("Overwrite");
@@ -62,13 +65,15 @@ public class ThisFileAlreadyExists extends MoveMenu{
 		
 	}
 	
-	public static void saveFile(SaveAble s, String fp, int x, int y){
+	public static void saveFile(SaveAble s, String fp, int x, int y, FileLoader fl){
 		File f = new File(fp);
 		if(f.exists()){
 			debug.Debug.println("*"+fp+" already exists!", debug.Debug.COMERR);
-			GuiControle.addMenu(new ThisFileAlreadyExists(x, y, s, fp));
+			GuiControle.addMenu(new ThisFileAlreadyExists(x, y, s, fp, fl));
 		}else{
 			s.save(fp);
+			if(fl != null)
+				fl.fileLoaded(new File(fp));
 		}
 	}
 
