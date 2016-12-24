@@ -25,7 +25,7 @@ public class Overview extends AbstractMenu{
 	
 	private DataFiled[] spindel;
 	
-	public Overview(main.KeyListener k) {
+	public Overview(main.KeyListener k, process.PartPlacement p) {
 		super(0,70,SeyprisMain.sizeX()-300, SeyprisMain.sizeY()-100);
 		moveAble = false;
 		
@@ -121,7 +121,7 @@ public class Overview extends AbstractMenu{
 		};
 		add(pcb2stat);
 		
-		pp = new process.PartPlacement();
+		pp = p;
 		
 		add(new TextEnterButton(700,100,100,20,Color.white,k) {
 			@Override

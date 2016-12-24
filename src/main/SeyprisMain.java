@@ -19,6 +19,8 @@ import javax.swing.JFrame;
 import javax.swing.JPanel;
 import javax.swing.SwingUtilities;
 
+import process.ProcessControle;
+
 public class SeyprisMain extends JPanel{
 	
 	private JFrame frame;
@@ -34,6 +36,8 @@ public class SeyprisMain extends JPanel{
 	private int bufferInUse;
 	
 	private BufferedImage ima;
+	
+	private ProcessControle processControle;
 	
 	private static FrameSize size;
 	public final int playerOffsetX;
@@ -105,9 +109,12 @@ public class SeyprisMain extends JPanel{
 		frame.addMouseMotionListener(mouse);
 		frame.addMouseWheelListener(mouse);
 		
+		debug.Debug.println("Building Process Controle...");
+		processControle = new ProcessControle();
+		
 		gui = new GuiControle(mouse, key, observer);
 		if(!observer){
-			new MenuStorage(key);
+			new MenuStorage(key, processControle);
 			GuiControle.setMiddleMenu(MenuStorage.overview);
 		}
 		

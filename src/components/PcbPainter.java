@@ -46,6 +46,8 @@ public class PcbPainter {
 			if(showName){
 				g.setColor(Color.white);
 				g.drawString(pos[i].name, 1, -1);
+				g.setColor(Color.yellow);
+				g.drawLine(0,0,(int)(Math.cos(pos[i].rot)*15),(int)(Math.sin(pos[i].rot)*15));
 			}
 			g.translate(-pos[i].x, -pos[i].y);
 		}
