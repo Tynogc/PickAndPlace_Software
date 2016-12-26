@@ -167,6 +167,13 @@ public class ScrollBar extends Button {
 		scrolled();
 	}
 	
+	public void scrolleByAmount(int am){
+		iterated+=am;
+		if(iterated>iterations)iterated = iterations;
+		if(iterated<0)iterated = 0;
+		scrolled();
+	}
+	
 	public void leftClicked(int x, int y){
 		super.leftClicked(x, y);
 		mousePosYStart = y-getyPos();

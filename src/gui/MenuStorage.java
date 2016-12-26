@@ -7,6 +7,7 @@ public class MenuStorage {
 	public static Overview overview;
 	public static ProjectMenu project;
 	public static MachineSetup setup;
+	public static MachineView mView;
 	
 	public MenuStorage(KeyListener key, process.ProcessControle pc){
 		debug.Debug.println("Building Menus...");
@@ -16,5 +17,7 @@ public class MenuStorage {
 		debug.Debug.bootMsg("Project", project.getStatus());
 		setup = new MachineSetup();
 		debug.Debug.bootMsg("Machine Setup", setup.getStatus());
+		mView = new MachineView(key);
+		debug.Debug.bootMsg("Machine View", mView.getStatus());
 	}
 }

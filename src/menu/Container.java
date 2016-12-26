@@ -58,6 +58,10 @@ public class Container implements ButtonInterface{
 		next = next.remove(b);
 		return this;
 	}
+	
+	public void removeIntern(Button b){
+		content = content.remove(b);
+	}
 
 	@Override
 	public void longTermUpdate() {

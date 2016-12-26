@@ -273,7 +273,7 @@ public class BottomMenu extends menu.AbstractMenu{
 	}
 	
 	private void B_Project(){
-		GuiControle.setMiddleMenu(MenuStorage.project);
+		GuiControle.setMiddleMenu(MenuStorage.mView);
 	}
 	
 	private void B_Overview(){
