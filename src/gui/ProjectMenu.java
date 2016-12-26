@@ -5,6 +5,9 @@ import java.awt.Graphics;
 import java.awt.Graphics2D;
 import java.awt.image.BufferedImage;
 import java.io.File;
+import java.util.concurrent.Semaphore;
+
+import javax.swing.JFileChooser;
 
 import components.PCB;
 import components.PcbPainter;
@@ -38,6 +41,10 @@ public class ProjectMenu extends AbstractMenu{
 	private int position;
 	private static final int numOfButtons = 20;
 	
+	private Semaphore loadSema;
+	private File pcbToLoad;
+	private boolean fileChooserPending;
+	
 	public ProjectMenu() {
 		super(0,70,1600,1000);
 		
@@ -51,11 +58,29 @@ public class ProjectMenu extends AbstractMenu{
 			protected void isFocused() {}
 			@Override
 			protected void isClicked() {
-				loadPCB(new File("PowerDistribution.kicad_pcb"));
+				if(fileChooserPending)
+					return;
+				final JFileChooser jfc = new JFileChooser("user");
+				new Thread(){
+					public void run() {
+						try {
+							loadSema.acquire();
+						} catch (InterruptedException e) {
+							e.printStackTrace();
+						}
+						fileChooserPending = true;
+						int i = jfc.showDialog(null, "Select PCB");
+						if(i == JFileChooser.APPROVE_OPTION)
+							pcbToLoad = jfc.getSelectedFile();
+						if(i == JFileChooser.CANCEL_OPTION)
+							fileChooserPending = false;
+						loadSema.release();
+					};
+				}.start();
 			}
 		};
 		add(load);
-		load.setText("Load");
+		load.setText("Load PCB");
 		
 		scale = new CheckBox[3];
 		scale[0] = new CheckBox(1000,500,"res/ima/cli/cbx/CB", 100) {
@@ -169,6 +194,8 @@ public class ProjectMenu extends AbstractMenu{
 			comToReel_container.addInContainer(coms[i]);
 		}
 		add(comToReel_container);
+		
+		loadSema = new Semaphore(1);
 	}
 
 	@Override
@@ -176,6 +203,14 @@ public class ProjectMenu extends AbstractMenu{
 		if(scr!=null)
 		if(position != scr.getScrolled())
 			scrolled();
+		
+		if(loadSema.availablePermits()>0){
+			if(pcbToLoad != null){
+				loadPCB(pcbToLoad);
+				pcbToLoad = null;
+			}
+			fileChooserPending = false;
+		}
 	}
 
 	@Override
@@ -205,7 +240,17 @@ public class ProjectMenu extends AbstractMenu{
 	}
 	
 	private void loadPCB(File f){
-		pcb = new KiCadPcbImport(f).pcb;
+		debug.Debug.println("*Loading PCB", debug.Debug.COM);
+		String pcbName = f.getName();
+		if(pcbName.endsWith(".kicad_pcb")){
+			pcb = new KiCadPcbImport(f).pcb;
+		}else if(pcbName.endsWith(".pos")){
+			pcb = new components.standard.CsvPCBimport(f).pcb;
+		}else{
+			debug.Debug.println("Unknown File extension: "+pcbName, debug.Debug.COMERR);
+		}
+		if(pcb == null)return;
+		
 		painter = new PcbPainter[]{
 				new PcbPainter(pcb, 2, Color.red, true),
 				new PcbPainter(pcb, 6, Color.red, true),
@@ -279,7 +324,7 @@ class CompDataField extends DataFiled{
 			setText("---");
 			return;
 		}
-		setText(pcbToReel.fp.reference+" "+pcbToReel.cpName);
+		setText(pcbToReel.fp.reference+" "+pcbToReel.fp.value+" "+pcbToReel.cpName);
 		//FIXME setSubtext(pcbToReel.cpId);
 	}
 }

@@ -17,7 +17,7 @@ public class KiCadPcbImport {
 	public static final int COMPATIBLE_VERSION_HIGH = 4;
 	
 	public KiCadPcbImport(File f){
-		debug.Debug.println("*Loading PCB...");
+		debug.Debug.println("Import KiCad-PCB...");
 		Runtime.getRuntime().gc();
 		String operate = "";
 		try {

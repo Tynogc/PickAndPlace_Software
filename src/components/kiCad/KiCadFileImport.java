@@ -123,9 +123,13 @@ public class KiCadFileImport {
 				footprint.xPos = x;
 				footprint.yPos = y;
 				footprint.rotation = r;
-				System.out.println("->at "+x+" "+y+" "+r);
+				//Integer direct import
+				footprint.xPosInInt = utility.DoubleReader.parseDouble(st[1]);
+				footprint.yPosInInt = utility.DoubleReader.parseDouble(st[2]);
+				
+				System.out.println("->at "+x+" "+y+" "+r+"("+footprint.xPosInInt+" "+footprint.yPosInInt+")");
 			} catch (Exception e) {
-				debug.Debug.println("Problem loading Footprint (at)"+e.toString());
+				debug.Debug.println("Problem loading Footprint (at)"+e.toString(), debug.Debug.ERROR);
 			}
 			
 			return;
@@ -135,6 +139,12 @@ public class KiCadFileImport {
 			if(st.length>=3)
 				footprint.reference = st[2];
 			System.out.println("reference: "+footprint.reference);
+		}
+		if(s.startsWith("fp_text value ")){
+			String[] st = s.split(" ");
+			if(st.length>=3)
+				footprint.value = st[2];
+			System.out.println("value: "+footprint.value);
 		}
 	}
 	

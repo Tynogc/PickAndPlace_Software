@@ -7,6 +7,9 @@ public class FootprintSize {
 		int ySize = 0;
 		
 		PadList pad = f.pads;
+		if(pad == null){
+			return new int[]{0,0};
+		}
 		do {
 			if(pad.pad != null){
 				int[][] xi = getPadPosition(pad.pad, scale, f.rotation);

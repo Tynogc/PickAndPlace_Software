@@ -1,21 +1,33 @@
 package process;
 
+import cnc.Abstract_CNC;
+import cnc.CNC_Simulation;
+
 public class ProcessControle {
 
+	//Can process placement-Comand-Que
 	public ComandProcessor comandProcess;
+	//The Positioning-Layout of the Machine
 	public final MachineLayout machineLayout;
-	private final IPCtoCNC cncOutput;
-	private final IPC_Simulation cncSimulation;
+	
+	private final IPCtoCNC ipcToCnc;
+	//The real CNC_Machine
+	private final Abstract_CNC cnc_Machine;
+	//A CNC-Simulator, for placement-Simulation
+	private final CNC_Simulation simulation;
+	
 	public final PartPlacement partPlacementsystem;
+	public MachinePCBview pcbView;
 	
 	public ProcessControle(){
-		cncOutput = new IPCtoCNC() {//FIXME init correct
-		};
+		machineLayout = new MachineLayout();
 		
-		cncSimulation = new IPC_Simulation();
+		ipcToCnc = new IPCtoCNC(machineLayout);
 		
 		partPlacementsystem = new PartPlacement();
-		machineLayout = new MachineLayout();
+		
+		cnc_Machine = new Abstract_CNC();
+		simulation = new CNC_Simulation();
 	}
 	
 	/////System comands

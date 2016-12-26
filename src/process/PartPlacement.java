@@ -26,7 +26,9 @@ public class PartPlacement {
 	private PicturClient pictureClient;
 	
 	private PicProcessingStatLoader values;
-	private Spindel spindel;
+	public final Spindel spindel;
+	
+	private boolean isProcessing;
 	
 	public PartPlacement(){
 		debug.Debug.println(" Building Pic-Processing");
@@ -53,6 +55,14 @@ public class PartPlacement {
 			// TODO: handle exception
 		}
 		lastImageProcessed = imageToProcess;
+		
+		try {
+			sema.acquire();
+		} catch (InterruptedException e) {
+			e.printStackTrace();
+		}
+		isProcessing = false;
+		sema.release();
 	}
 	////////////////////////////////////////////////////////////////////////////////////////////////
 	////////////////////////////////////////////////////////////////////////////////////////////////
@@ -111,7 +121,14 @@ public class PartPlacement {
 	}
 	
 	public void request(){
-		pictureClient.requestPic(main.Settings.CAMERA_PARTS);//TODO
+		pictureClient.requestPic(main.Settings.CAMERA_PARTS);
+		try {
+			sema.acquire();
+		} catch (InterruptedException e) {
+			e.printStackTrace();
+		}
+		isProcessing = true;
+		sema.release();
 		debug.Debug.println("*Requested Pic");
 	}
 	
@@ -175,6 +192,17 @@ public class PartPlacement {
 		debug.Debug.println("*Running Process-Test with "+filepath);
 		if(imo.getIconHeight()>10)
 			pictureClient.needProcess();
+	}
+	
+	public boolean getIsProcessing(){
+		try {
+			sema.acquire();
+		} catch (InterruptedException e) {
+			e.printStackTrace();
+		}
+		boolean b = isProcessing;
+		sema.release();
+		return b;
 	}
 	
 }

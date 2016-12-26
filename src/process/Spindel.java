@@ -1,5 +1,7 @@
 package process;
 
+import gui.subMenu.ComponentSetup;
+
 import java.awt.Color;
 import java.awt.Graphics;
 import java.awt.image.BufferedImage;
@@ -11,7 +13,9 @@ import components.FootprintSize;
 import components.kiCad.KiCadFileImport;
 import componetStorage.Reel;
 import componetStorage.StoredComponent;
+import process.image.CPoffset;
 import process.image.PartDetector;
+import utility.VectorAdvanced;
 
 public class Spindel {
 
@@ -31,6 +35,7 @@ public class Spindel {
 	private Semaphore sema;
 	
 	private StoredComponent reel;
+	private CPoffset cgOffset;
 	
 	public Spindel(){
 		centerOfRotationX = 350;
@@ -102,6 +107,18 @@ public class Spindel {
 				+(int)(pd.cgY-pd.crY)+"px ["
 				+utility.DoubleWriter.fixedKommata((double)(pd.cgY-pd.crY)/pps.scaling, 3)+"mm]", 5, 24);
 		g.drawString("Rotation "+utility.DoubleWriter.fixedKommata(Math.toDegrees(pd.rotation),1), 5, 36);
+		
+		cgOffset = new CPoffset(pd, pps.scaling);
 		sema.release();
 	}
+	
+	public void setCurrentcomponent(StoredComponent s){
+		reel = s;
+		cgOffset = null;
+	}
+	
+	public void openCPmenue(){
+		gui.GuiControle.addMenu(new gui.subMenu.ComponentSetup(200,100,reel));
+	}
+	
 }

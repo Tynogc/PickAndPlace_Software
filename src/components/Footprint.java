@@ -2,29 +2,36 @@ package components;
 
 import java.io.PrintWriter;
 
+import project.PlacementInformation;
+
 public class Footprint{
 
 	public PadList pads;
 	
 	public String name;
 	public String reference;
+	public String value;
 	
 	/**
 	 * xPos and yPos will be NaN unless loaded from PDB-File
 	 * DO NOT USE for FP-Detection
 	 */
 	public double xPos;
+	public int xPosInInt;
 	/**
 	 * xPos and yPos will be NaN unless loaded from PDB-File
 	 * DO NOT USE for FP-Detection
 	 */
 	public double yPos;
+	public int yPosInInt;
 	public double rotation;
 	
 	public Footprint(){
 		pads = new PadList();
 		xPos = Double.NaN;
 		yPos = Double.NaN;
+		xPosInInt = Integer.MIN_VALUE;
+		yPosInInt = Integer.MIN_VALUE;
 	}
 	
 	public void addPad(Pad p){
