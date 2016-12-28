@@ -14,6 +14,8 @@ public class ProjectFile implements utility.SaveAble{
 	
 	private static final String DIVIDER = " :#: ";
 	
+	public String projectName;j
+	
 	public ProjectFile(final PCB p){
 		pcb = p;
 		
@@ -42,6 +44,6 @@ public class ProjectFile implements utility.SaveAble{
 
 	@Override
 	public void save(String fp) {
-		// TODO Auto-generated method stub
+		
 	}
 }
