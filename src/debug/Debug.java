@@ -485,6 +485,8 @@ public class Debug {
 	
 	public static void bootMsg(String s, int state){
 		int i = s.length();
+		if(s.startsWith(" "))
+			i--;
 		for (; i < 20; i++) {
 			s+=" ";
 		}

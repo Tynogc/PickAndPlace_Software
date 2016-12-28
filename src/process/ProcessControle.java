@@ -1,5 +1,6 @@
 package process;
 
+import setup.SetupControle;
 import cnc.Abstract_CNC;
 import cnc.CNC_Simulation;
 
@@ -19,8 +20,11 @@ public class ProcessControle {
 	public final PartPlacement partPlacementsystem;
 	public MachinePCBview pcbView;
 	
+	public SetupControle setup;
+	
 	public ProcessControle(){
 		machineLayout = new MachineLayout();
+		debug.Debug.bootMsg(" Loading M-Layout", machineLayout.load());
 		
 		ipcToCnc = new IPCtoCNC(machineLayout);
 		
@@ -28,6 +32,8 @@ public class ProcessControle {
 		
 		cnc_Machine = new Abstract_CNC();
 		simulation = new CNC_Simulation();
+		
+		setup = new SetupControle(machineLayout);
 	}
 	
 	/////System comands

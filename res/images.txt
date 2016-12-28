@@ -151,3 +151,8 @@ res/ima/cli/spb/bro/Bd.png
 res/ima/cli/spb/bro/Bd.png
 res/ima/cli/spb/bro/Folder.png
 res/ima/cli/spb/bro/Folder.png
+res/ima/gui/par/setUpReel.png
+res/ima/gui/par/setUpTube.png
+res/ima/gui/par/setUpTray.png
+res/ima/mbe/m500x300.png
+res/ima/mbe/m500x300.png

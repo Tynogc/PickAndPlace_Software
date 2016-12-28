@@ -27,6 +27,8 @@ public class ThisFileAlreadyExists extends MoveMenu{
 				s.save(fp);
 				if(fl != null)
 					fl.fileLoaded(new File(fp));
+				
+				closeYou();
 			}
 		};
 		b1.setText("Overwrite");

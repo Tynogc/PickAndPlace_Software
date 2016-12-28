@@ -45,7 +45,7 @@ public abstract class ComponentBrowser extends MoveMenu implements OpenFile{
 		};
 		add(teb);
 		
-		browse = new Button(370,70,"res/ima/cli/B") {
+		browse = new Button(340,38,"res/ima/cli/B") {
 			@Override
 			protected void uppdate() {}
 			@Override
@@ -63,6 +63,12 @@ public abstract class ComponentBrowser extends MoveMenu implements OpenFile{
 			}
 		};
 		add(browse);
+		browse.setTextColor(Button.gray);
+		browse.setText("Browse Library");
+		teb.setText("");
+		
+		teb.leftClicked(teb.getxPos()+1, teb.getyPos()+1);
+		teb.leftReleased(teb.getxPos()+1, teb.getyPos()+1);
 		
 		scrolledTo(0);
 	}
@@ -88,6 +94,10 @@ public abstract class ComponentBrowser extends MoveMenu implements OpenFile{
 		File[] f = new utility.FileSearch(new File("user/components")).searchFor(s);
 		files = new FileToSearch[f.length];
 		debug.Debug.println(f.length+" Files found.", debug.Debug.SUBCOM);
+		if(f.length == 1){
+			clickedOn(f[0]);
+			return;
+		}
 		for (int i = 0; i < f.length; i++) {
 			files[i] = new FileToSearch(f[i]);
 		}

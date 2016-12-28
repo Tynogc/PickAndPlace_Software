@@ -33,6 +33,10 @@ public class SCloadSave {
 	private static final String SUPER_PART_CONTAINER = "CONTAINER";
 	private static final String SUPER_PART_PCB = "PCB";
 	
+	private static final String POS_MIDDLE = "MIDDLE";
+	private static final String POS_WHOLES = "WHOLES";
+	private static final String POS_FOLLOW = "FOLLOW";
+	
 	private static final String COM_REEL = "REEL";
 	private static final String COM_TUBE = "TUBE";
 	private static final String COM_TRAY = "TRAY";
@@ -62,15 +66,24 @@ public class SCloadSave {
 						currentPart = 10;
 						String[] st = ui.split(DIVIDER);
 						if(st.length>=3){
-							if(st[2].compareTo(COM_TRAY)==0)sc.container = StoredComponent.CONTAINER_TRAY;
-							if(st[2].compareTo(COM_TUBE)==0)sc.container = StoredComponent.CONTAINER_TUBE;
-							if(st[2].compareTo(COM_REEL)==0)sc.container = StoredComponent.CONTAINER_REEL;
+							if(st[2].compareTo(COM_TRAY)==0){
+								sc.container = StoredComponent.CONTAINER_TRAY;
+								sc.tray = new Tray();
+							}
+							if(st[2].compareTo(COM_TUBE)==0){
+								sc.container = StoredComponent.CONTAINER_TUBE;
+								sc.tube = new Tube();
+							}
+							if(st[2].compareTo(COM_REEL)==0){
+								sc.container = StoredComponent.CONTAINER_REEL;
+								sc.reel = new Reel();
+							}
 						}
 					}
 					if(ui.contains(DIVIDER+SUPER_PART_PCB))currentPart = 20;
 				}else{
 					if(currentPart == 0)loadNormal(ui, sc);
-					if(currentPart == 10);//TODO
+					if(currentPart == 10)loadComp(ui, sc);
 					if(currentPart == 20)toFeedInFotprint+=ui;
 				}
 				ui = br.readLine();
@@ -90,6 +103,33 @@ public class SCloadSave {
 		return sc;
 	}
 	
+	private static void loadComp(String s, StoredComponent sc){
+		String[] st = s.split(DIVIDER);
+		if(sc.container == StoredComponent.CONTAINER_REEL){
+			if(s.startsWith(POS_WHOLES)) sc.reel.wholesPerComp = Integer.parseInt(st[1]);
+			if(s.startsWith(POS_MIDDLE)){
+				sc.reel.middleX = Double.parseDouble(st[1]);
+				sc.reel.middleY = Double.parseDouble(st[2]);
+			}
+		}
+		if(sc.container == StoredComponent.CONTAINER_TUBE){
+			if(s.startsWith(POS_MIDDLE)){
+				sc.tube.middleX = Double.parseDouble(st[1]);
+				sc.tube.middleY = Double.parseDouble(st[2]);
+			}
+		}
+		if(sc.container == StoredComponent.CONTAINER_TRAY){
+			if(s.startsWith(POS_FOLLOW)){
+				sc.tray.followRateX = Double.parseDouble(st[1]);
+				sc.tray.followRateY = Double.parseDouble(st[2]);
+			}
+			if(s.startsWith(POS_MIDDLE)){
+				sc.tray.middleX = Double.parseDouble(st[1]);
+				sc.tray.middleY = Double.parseDouble(st[2]);
+			}
+		}
+	}
+	
 	private static void loadNormal(String s, StoredComponent sc){
 		String[] st = s.split(DIVIDER);
 		if(s.startsWith(pue_action)) sc.pue_action = Integer.parseInt(st[1]);
@@ -107,6 +147,10 @@ public class SCloadSave {
 	public static void save(StoredComponent s, String fp){
 		if(s.fp ==null){
 			debug.Debug.println("* Can't save Component without Footprint!", debug.Debug.COMERR);
+			return;
+		}
+		if(s.container == StoredComponent.CONTAINER_REEL&&s.reel == null){
+			debug.Debug.println("* Can't save Component without Container!", debug.Debug.COMERR);
 			return;
 		}
 		
@@ -131,7 +175,9 @@ public class SCloadSave {
 			if(s.container == StoredComponent.CONTAINER_TUBE)ui+=COM_TUBE;
 			if(s.container == StoredComponent.CONTAINER_TRAY)ui+=COM_TRAY;
 			writer.println(SUPER_PART+DIVIDER+SUPER_PART_CONTAINER+ui);
-			//TODO
+			if(s.container == StoredComponent.CONTAINER_REEL)saveReel(s, writer);
+			if(s.container == StoredComponent.CONTAINER_TUBE)saveTube(s, writer);
+			if(s.container == StoredComponent.CONTAINER_TRAY)saveTray(s, writer);
 			writer.println(SUPER_PART+DIVIDER+SUPER_PART_PCB);
 			s.fp.save(writer);
 		} catch (IOException e) { 
@@ -157,5 +203,17 @@ public class SCloadSave {
 		p.println(fp_hight+DIVIDER+s.hight);
 		p.println(fp_orientation+DIVIDER+s.partOrientation);
 		p.println(fp_tool+DIVIDER+s.toolToUse);
+	}
+	
+	private static void saveReel(StoredComponent s, PrintWriter p){
+		p.println(POS_MIDDLE+DIVIDER+s.reel.middleX+DIVIDER+s.reel.middleY);
+		p.println(POS_WHOLES+DIVIDER+s.reel.wholesPerComp);
+	}
+	private static void saveTray(StoredComponent s, PrintWriter p){
+		p.println(POS_MIDDLE+DIVIDER+s.tray.middleX+DIVIDER+s.tray.middleY);
+		p.println(POS_FOLLOW+DIVIDER+s.tray.followRateX+DIVIDER+s.tray.followRateY);
+	}
+	private static void saveTube(StoredComponent s, PrintWriter p){
+		p.println(POS_MIDDLE+DIVIDER+s.tube.middleX+DIVIDER+s.tube.middleY);
 	}
 }

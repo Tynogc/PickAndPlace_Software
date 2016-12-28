@@ -21,8 +21,6 @@ public class Overview extends AbstractMenu{
 	
 	private process.PartPlacement pp;
 	
-	private FootprintPainter fpp;
-	
 	private DataFiled[] spindel;
 	
 	public Overview(main.KeyListener k, process.PartPlacement p) {
@@ -69,10 +67,7 @@ public class Overview extends AbstractMenu{
 			}
 			@Override
 			protected void isClicked() {
-				fpp = new FootprintPainter(
-						new components.kiCad.KiCadFileImport(new File("PLCC-44.kicad_mod")).footprint
-						,13.0,false,Color.red);
-				new KiCadPcbImport(new File("PowerDistribution.kicad_pcb"));
+				pp.spindel.openCPmenue();
 			}
 		};
 		add(pcb1stat);
@@ -142,9 +137,6 @@ public class Overview extends AbstractMenu{
 		pp.paintViewer(g, 630, 500);
 		pp.paintSpindel(g, 30, 0);
 		pp.paintProcessed(g, 800, 0);
-		
-		if(fpp != null)
-			g.drawImage(fpp.buffer, 30, 30, null);
 	}
 
 }
