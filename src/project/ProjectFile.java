@@ -25,6 +25,15 @@ public class ProjectFile implements utility.SaveAble{
 		for (int i = 0; i < fpa.length; i++) {
 			componentMatch[i] = new PCBcomponentToReel(fpa[i]);
 		}
+		
+		for (int i = 0; i < fpa.length; i++) {
+			for (int j = 0; j < fpa.length; j++) {
+				if(i==j)continue;
+				if(fpa[i].reference.compareTo(fpa[j].reference)==0){
+					debug.Debug.println(" Footprint reference match! "+fpa[j].reference, debug.Debug.WARN);
+				}
+			}
+		}
 	}
 	
 	public void load(File f){

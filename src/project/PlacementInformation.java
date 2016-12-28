@@ -25,6 +25,7 @@ public class PlacementInformation {
 	}
 	public PlacementInformation(Footprint f, String ref){
 		if(f.xPosInInt == Integer.MIN_VALUE){
+			debug.Debug.println(" Placement information by Double: "+name+" "+reference, debug.Debug.WARN);
 			xPos = (int)(f.xPos*1000.0);
 			yPos = (int)(f.yPos*1000.0);
 		}else{

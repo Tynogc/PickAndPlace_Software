@@ -324,7 +324,7 @@ class CompDataField extends DataFiled{
 			setText("---");
 			return;
 		}
-		setText(pcbToReel.fp.reference+" "+pcbToReel.fp.value+" "+pcbToReel.cpName);
+		setText(pcbToReel.fp.reference+"   "+pcbToReel.fp.value+"   "+pcbToReel.cpName);
 		//FIXME setSubtext(pcbToReel.cpId);
 	}
 }
