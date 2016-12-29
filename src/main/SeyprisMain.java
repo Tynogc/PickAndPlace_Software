@@ -56,6 +56,8 @@ public class SeyprisMain extends JPanel{
 	
 	private int scaling = 3;
 	
+	public static final String VERSION = "0.1.1";
+	
 	public SeyprisMain(){
 		Dimension dim = getToolkit().getScreenSize();
 		size = new FrameSize(dim.width, dim.height);
