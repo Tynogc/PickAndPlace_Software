@@ -1,5 +1,7 @@
 package gui;
 
+import gui.subMenu.ThisFileAlreadyExists;
+
 import java.awt.Color;
 import java.awt.Graphics;
 import java.awt.Graphics2D;
@@ -19,6 +21,7 @@ import menu.CheckBox;
 import menu.Container;
 import menu.DataFiled;
 import menu.ScrollBar;
+import menu.TextEnterButton;
 import project.PCBcomponentToReel;
 import project.ProjectFile;
 
@@ -43,7 +46,9 @@ public class ProjectMenu extends AbstractMenu{
 	
 	private Semaphore loadSema;
 	private File pcbToLoad;
+	private File projectToLoad;
 	private boolean fileChooserPending;
+	private TextEnterButton savePro;
 	
 	public ProjectMenu() {
 		super(0,70,1600,1000);
@@ -51,7 +56,7 @@ public class ProjectMenu extends AbstractMenu{
 		ulc = 150;
 		moveAble = false;
 		
-		Button load = new Button(100,600,"res/ima/cli/G") {
+		Button load = new Button(550,600,"res/ima/cli/G") {
 			@Override
 			protected void uppdate() {}
 			@Override
@@ -81,6 +86,66 @@ public class ProjectMenu extends AbstractMenu{
 		};
 		add(load);
 		load.setText("Load PCB");
+		
+		Button loadPro = new Button(100,600,"res/ima/cli/G") {
+			@Override
+			protected void uppdate() {}
+			@Override
+			protected void isFocused() {}
+			@Override
+			protected void isClicked() {
+				if(fileChooserPending)
+					return;
+				if(pcb == null){
+					debug.Debug.println("Can't load Project without PCB!", debug.Debug.COMERR);
+					return;
+				}
+				final JFileChooser jfc = new JFileChooser(ProjectFile.FILE_PATH);
+				new Thread(){
+					public void run() {
+						try {
+							loadSema.acquire();
+						} catch (InterruptedException e) {
+							e.printStackTrace();
+						}
+						fileChooserPending = true;
+						int i = jfc.showDialog(null, "Select Project");
+						if(i == JFileChooser.APPROVE_OPTION)
+							projectToLoad = jfc.getSelectedFile();
+						if(i == JFileChooser.CANCEL_OPTION)
+							fileChooserPending = false;
+						loadSema.release();
+					};
+				}.start();
+			}
+		};
+		add(loadPro);
+		loadPro.setText("Load Project File");
+		
+		savePro = new TextEnterButton(100,632,100,20,Color.white,main.SeyprisMain.getKL()) {
+			@Override
+			protected void textEntered(String text) {}
+		};
+		add(savePro);
+		savePro.setText("");
+		
+		Button sPro = new Button(200,632,"res/ima/cli/Gsk") {
+			@Override
+			protected void uppdate() {}
+			@Override
+			protected void isFocused() {}
+			@Override
+			protected void isClicked() {
+				if(project == null)
+					return;
+				String fp = savePro.getText();
+				if(!fp.endsWith(ProjectFile.FILE_END))
+					fp+=ProjectFile.FILE_END;
+				ThisFileAlreadyExists.saveFile(project,ProjectFile.FILE_PATH+fp,200,200,null);
+			}
+		};
+		add(sPro);
+		sPro.setText("Save");
 		
 		scale = new CheckBox[3];
 		scale[0] = new CheckBox(1000,500,"res/ima/cli/cbx/CB", 100) {
@@ -124,7 +189,7 @@ public class ProjectMenu extends AbstractMenu{
 		scale[2].setText("18:1");
 		scale[0].setState(true);
 		
-		showName = new CheckBox(100,630,"res/ima/cli/cbx/CB", 100) {
+		showName = new CheckBox(1000,630,"res/ima/cli/cbx/CB", 100) {
 			@Override
 			public void changed(boolean b) {
 				redrawPcb();
@@ -208,6 +273,20 @@ public class ProjectMenu extends AbstractMenu{
 			if(pcbToLoad != null){
 				loadPCB(pcbToLoad);
 				pcbToLoad = null;
+			}
+			if(projectToLoad != null){
+				if(project != null){
+					project.load(projectToLoad);
+					project.projectName = projectToLoad.getName();
+					String[] s = projectToLoad.getPath().split(ProjectFile.FILE_PATH);
+					if(s.length>=2){
+						savePro.setText(s[1]);
+					}else{
+						savePro.setText(project.projectName);
+					}
+					scrolled();
+				}
+				projectToLoad = null;
 			}
 			fileChooserPending = false;
 		}
@@ -294,7 +373,7 @@ class CompDataField extends DataFiled{
 	@Override
 	protected void isClicked() {
 		if(pcbToReel != null){
-			GuiControle.addMenu(new gui.subMenu.ComponentBrowser(30,30){
+			GuiControle.addMenu(new gui.subMenu.ComponentBrowserProject(30,30, pcbToReel){
 				@Override
 				public void loadedComp(StoredComponent s) {
 					pcbToReel.cpName = s.name;

@@ -156,7 +156,7 @@ public class SCloadSave {
 		
 		PrintWriter writer = null; 
 		try { 
-			writer = new PrintWriter(new FileWriter(fp)); 
+			writer = new PrintWriter(new FileWriter(fp));
 			writer.println(s.name);
 			writer.println(s.id);
 			String q = "";
@@ -168,6 +168,7 @@ public class SCloadSave {
 			else q+="O";
 			writer.println(q);
 			
+			writer.println(COMMENT+"Generated with Seypris PNP-Controle v"+main.SeyprisMain.VERSION +" (C)Sven T. Schneider");
 			writer.println(COMMENT+"Values:");
 			saveValues(s, writer);
 			String ui = DIVIDER;
@@ -178,6 +179,7 @@ public class SCloadSave {
 			if(s.container == StoredComponent.CONTAINER_REEL)saveReel(s, writer);
 			if(s.container == StoredComponent.CONTAINER_TUBE)saveTube(s, writer);
 			if(s.container == StoredComponent.CONTAINER_TRAY)saveTray(s, writer);
+			writer.println(COMMENT+"KiCad Library format");
 			writer.println(SUPER_PART+DIVIDER+SUPER_PART_PCB);
 			s.fp.save(writer);
 		} catch (IOException e) { 

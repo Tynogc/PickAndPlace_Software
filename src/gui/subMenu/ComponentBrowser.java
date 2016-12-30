@@ -67,10 +67,14 @@ public abstract class ComponentBrowser extends MoveMenu implements OpenFile{
 		browse.setText("Browse Library");
 		teb.setText("");
 		
-		teb.leftClicked(teb.getxPos()+1, teb.getyPos()+1);
-		teb.leftReleased(teb.getxPos()+1, teb.getyPos()+1);
+		focusTeb();
 		
 		scrolledTo(0);
+	}
+	
+	protected void focusTeb(){
+		teb.leftClicked(teb.getxPos()+1, teb.getyPos()+1);
+		teb.leftReleased(teb.getxPos()+1, teb.getyPos()+1);
 	}
 
 	@Override

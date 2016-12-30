@@ -14,6 +14,8 @@ import utility.SaveAble;
 
 public class ThisFileAlreadyExists extends MoveMenu{
 
+	private String filePath;
+	
 	public ThisFileAlreadyExists(int x, int y, final SaveAble s, final String fp, final FileLoader fl) {
 		super(x, y, PicLoader.pic.getImage("res/ima/mbe/warn.png"), fp+" already Exists!");
 		Button b1 = new Button(100,140,"res/ima/cli/G") {
@@ -47,6 +49,8 @@ public class ThisFileAlreadyExists extends MoveMenu{
 		b2.setText("Cancel");
 		add(b2);
 		
+		filePath = fp;
+		
 		closeOutside = true;
 	}
 
@@ -55,6 +59,9 @@ public class ThisFileAlreadyExists extends MoveMenu{
 		g.setFont(main.Fonts.fontBold18);
 		g.setColor(Color.red);
 		g.drawString("Overwrite File?", 40, 70);
+		g.setFont(main.Fonts.font12);
+		g.setColor(Color.white);
+		g.drawString(filePath, 50, 70);
 	}
 
 	@Override

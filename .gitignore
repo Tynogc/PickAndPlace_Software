@@ -4,3 +4,4 @@ log/
 *.kicad_pcb
 bin/
 *.component
+user/project/
