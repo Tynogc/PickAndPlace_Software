@@ -30,11 +30,11 @@ public class PerformanceMenu extends menu.AbstractMenu{
 	
 	private static final int lenght = 8;
 	
-	public static final int PlayerAndMap = 0;
-	public static final int NPCmovement = 1;
+	public static final int PrepareFrame = 0;
+	public static final int MachineMovement = 1;
 	public static final int UpdateGui = 2;
 	public static final int PaintBack = 3;
-	public static final int PaintEntity = 4;
+	public static final int Sync = 4;
 	public static final int PaintGui = 5;
 	public static final int RedrawBack = 6;
 	
@@ -250,12 +250,12 @@ public class PerformanceMenu extends menu.AbstractMenu{
 	
 	private String getName(int i){
 		switch (i) {
-		case PlayerAndMap:
-			return "Player and Map:";
-		case NPCmovement:
-			return "NPC movement:";
-		case PaintEntity:
-			return "Paint Entity:";
+		case PrepareFrame:
+			return "Prepare Frame:";
+		case MachineMovement:
+			return "Machine:";
+		case Sync:
+			return "Sync:";
 		case PaintGui:
 			return "Paint GUI:";
 		case UpdateGui:

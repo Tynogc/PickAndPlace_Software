@@ -71,7 +71,9 @@ public class SeyprisMain extends JPanel{
 		dbf.setDefaultCloseOperation(JFrame.EXIT_ON_CLOSE);
 		Fonts.createAllFonts();
 		
-		debug.Debug.println("* Starting Seypris 0.0.1");
+		debug.Debug.println("* Starting Seypris "+VERSION);
+		debug.Debug.println("  This Program is under the GNU");
+		debug.Debug.println("  GENERAL PUBLIC LICENSE V.3");
 		
 		startUp = new StartUp(dbf);
 		startUp.doStartUp();
@@ -164,16 +166,16 @@ public class SeyprisMain extends JPanel{
 		g.setColor(Color.black);
 		g.fillRect(0, 0, sizeX(), sizeY());
 		
-		PerformanceMenu.markTime(PerformanceMenu.PlayerAndMap);
+		PerformanceMenu.markTime(PerformanceMenu.PrepareFrame);
 		
-		PerformanceMenu.markTime(PerformanceMenu.NPCmovement);
+		PerformanceMenu.markTime(PerformanceMenu.MachineMovement);
 		if(!gui.loop());
 			//clickedOn.loop(player.xPos-playerOffsetX, player.yPos-playerOffsetY);
 		PerformanceMenu.markTime(PerformanceMenu.UpdateGui);
 
 		PerformanceMenu.markTime(PerformanceMenu.PaintBack);
 		
-		PerformanceMenu.markTime(PerformanceMenu.PaintEntity);
+		PerformanceMenu.markTime(PerformanceMenu.Sync);
 		gui.paint(g);
 		if(anim != null){
 			if(anim.uppdate())
