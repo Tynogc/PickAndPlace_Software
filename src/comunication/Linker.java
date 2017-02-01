@@ -5,6 +5,8 @@ import java.net.Socket;
 import java.net.UnknownHostException;
 import java.util.Scanner;
 
+import utility.FiFo;
+
 public class Linker extends Thread{
 
 	private Socket sck;

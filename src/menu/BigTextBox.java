@@ -106,9 +106,9 @@ public class BigTextBox extends Container{
 		
 		g.setRenderingHint(RenderingHints.KEY_TEXT_ANTIALIASING, RenderingHints.VALUE_TEXT_ANTIALIAS_ON);
 		
-		g.setColor(Color.GRAY);
 		g.setFont(main.Fonts.font10);
 		for (int i = 0; i < linesToDisplay; i++) {
+			g.setColor(Color.GRAY);
 			if(i == linesToDisplay/2){
 				g.setColor(Color.green);
 				g.fillRect(2, i*20, xSize-3, 20);

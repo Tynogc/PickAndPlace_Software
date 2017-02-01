@@ -22,6 +22,9 @@ public class Spindel {
 	public final int centerOfRotationX;
 	public final int centerOfRotationY;
 	
+	public int lastOffsetX;
+	public int lastOffsetY;
+	
 	private BufferedImage visualised;
 	private BufferedImage visualisedWoRc;
 	
@@ -35,7 +38,7 @@ public class Spindel {
 	private Semaphore sema;
 	
 	private StoredComponent reel;
-	private CPoffset cgOffset;
+	public CPoffset cgOffset;
 	
 	public Spindel(){
 		centerOfRotationX = 350;
@@ -107,6 +110,9 @@ public class Spindel {
 				+(int)(pd.cgY-pd.crY)+"px ["
 				+utility.DoubleWriter.fixedKommata((double)(pd.cgY-pd.crY)/pps.scaling, 3)+"mm]", 5, 24);
 		g.drawString("Rotation "+utility.DoubleWriter.fixedKommata(Math.toDegrees(pd.rotation),1), 5, 36);
+		
+		lastOffsetX = offsetX+centerOfRotationX-visualised.getWidth()/2;
+		lastOffsetY = offsetY+centerOfRotationY-visualised.getHeight()/2;
 		
 		cgOffset = new CPoffset(pd, pps.scaling);
 		sema.release();

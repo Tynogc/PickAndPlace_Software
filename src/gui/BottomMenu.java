@@ -154,7 +154,7 @@ public class BottomMenu extends menu.AbstractMenu{
 			}
 			@Override
 			protected void isClicked() {
-				//B_Settings();
+				B_Settings();
 			}
 		};
 		add(settings);
@@ -221,7 +221,7 @@ public class BottomMenu extends menu.AbstractMenu{
 		fKeyMarkerT = System.currentTimeMillis();
 		switch (key) {
 		case 5:
-			//B_
+			B_Com();
 			break;
 		case 2:
 			//B_Map();
@@ -236,7 +236,7 @@ public class BottomMenu extends menu.AbstractMenu{
 			B_runStop();
 			break;
 		case 8:
-			//B_Settings();
+			B_Settings();
 			break;
 		case 7:
 			//B_Reset();
@@ -254,9 +254,9 @@ public class BottomMenu extends menu.AbstractMenu{
 	private void B_runStop(){
 		if(runBool){
 			swapRunStop(false);
-			//ComunicationControl.com.send(">RUN");
+			//TODO FIXME
 		}else{
-			//ComunicationControl.com.send("*STOP");
+			//TODO FIXME
 		}
 	}
 
@@ -278,6 +278,14 @@ public class BottomMenu extends menu.AbstractMenu{
 	
 	private void B_Overview(){
 		GuiControle.setMiddleMenu(MenuStorage.overview);
+	}
+	
+	private void B_Com(){
+		GuiControle.setMiddleMenu(MenuStorage.comMenu);
+	}
+	
+	private void B_Settings(){
+		
 	}
 
 }

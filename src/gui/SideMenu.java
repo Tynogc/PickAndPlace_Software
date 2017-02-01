@@ -83,17 +83,28 @@ public class SideMenu extends AbstractMenu{
 	}
 	
 	private void drawEmc(Graphics g, int x, int y, int data, boolean absolut, int status){
-		if(absolut)g.drawImage(ico[1], x, y, null);
-		else g.drawImage(ico[0], x, y, null);
+		if(absolut)g.drawImage(ico[1], x, y+1, null);
+		else g.drawImage(ico[0], x, y+1, null);
 		if(status<0||status>=bigNums[0].length){
 			status = 0;
 			g.drawImage(bigNums[10][status], x+10, y+4, null);
 			g.drawImage(bigNums[10][status], x+42, y+4, null);
 			g.drawImage(bigNums[10][status], x+74, y+4, null);
 			g.drawImage(bigNums[10][status], x+106, y+4, null);
-			g.drawImage(smalNums[10][status], x+148, y+15, null);
-			g.drawImage(smalNums[10][status], x+171, y+15, null);
-			g.drawImage(smalNums[10][status], x+194, y+15, null);
+			g.drawImage(smalNums[10][status], x+147, y+14, null);
+			g.drawImage(smalNums[10][status], x+170, y+14, null);
+			g.drawImage(smalNums[10][status], x+193, y+14, null);
+		}else{
+			if(data < 0){
+				data = -data;
+				g.drawImage(bigNums[10][status], x+10, y+4, null);
+			}
+			g.drawImage(bigNums[(data/100000)%10][status], x+42, y+4, null);
+			g.drawImage(bigNums[(data/10000)%10][status], x+74, y+4, null);
+			g.drawImage(bigNums[(data/1000)%10][status], x+106, y+4, null);
+			g.drawImage(smalNums[(data/100)%10][status], x+147, y+14, null);
+			g.drawImage(smalNums[(data/10)%10][status], x+170, y+14, null);
+			g.drawImage(smalNums[data%10][status], x+193, y+14, null);
 		}
 	}
 
@@ -105,7 +116,7 @@ public class SideMenu extends AbstractMenu{
 
 	@Override
 	protected void paintIntern(Graphics g) {
-		drawEmc(g, 60, 20, 0, false, 10);
-		
+		drawEmc(g, 60, 20, 129450, false, 1);
+		drawEmc(g, 60, 80, -352513, false, 0);
 	}
 }

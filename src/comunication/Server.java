@@ -5,6 +5,8 @@ import java.io.PrintWriter;
 import java.net.ServerSocket;
 import java.net.Socket;
 
+import utility.FiFo;
+
 public class Server extends Thread{
 
 	public ServerSocket server;

@@ -77,7 +77,7 @@ public class Debug {
 	
 	private static Semaphore sema;
 	
-	public static comunication.FiFo fifo;
+	public static utility.FiFo fifo;
 	
 	static{
 		sema = new Semaphore(1);

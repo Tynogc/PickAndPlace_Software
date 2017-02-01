@@ -117,7 +117,7 @@ public class PartPlacement {
 	}
 	
 	public void paintSpindel(Graphics g, int x, int y){
-		spindel.paintVisu(g, x, y);
+		spindel.paintVisu(g, x+spindel.lastOffsetX, y+spindel.lastOffsetY);
 	}
 	
 	public void request(){
