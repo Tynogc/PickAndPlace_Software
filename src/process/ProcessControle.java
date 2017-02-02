@@ -30,10 +30,19 @@ public class ProcessControle {
 		
 		partPlacementsystem = new PartPlacement();
 		
-		cnc_Machine = new Abstract_CNC();
+		cnc_Machine = new Abstract_CNC(){
+			@Override
+			public boolean isSimulation() {
+				return false;
+			}
+		};
 		simulation = new CNC_Simulation();
 		
 		setup = new SetupControle(machineLayout);
+	}
+	
+	public void process(){
+		
 	}
 	
 	/////System comands

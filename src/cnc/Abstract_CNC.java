@@ -1,5 +1,7 @@
 package cnc;
 
-public class Abstract_CNC {
+public abstract class Abstract_CNC {
 
+	//Returns true, when the calles instance is a Simulation
+	public abstract boolean isSimulation();
 }
