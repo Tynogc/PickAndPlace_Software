@@ -21,6 +21,7 @@ public class DebugFrame extends JFrame{
 	private int b = 10;
 	
 	private byte canState;
+	private char canKey;
 	private boolean checkState;
 	private boolean pwState;
 	private String pwString = "";
@@ -101,7 +102,7 @@ public class DebugFrame extends JFrame{
 					if(c == '\n') canState = 3;
 					if(c == 'y') canState = 1;
 					if(c == 'n') canState = 2;
-					
+					canKey = c;
 					return;
 				}else if(pwState){
 					if(c == '\n'){
@@ -180,6 +181,7 @@ public class DebugFrame extends JFrame{
 		checkState = state;
 		pwState = false;
 		canState = 0;
+		canKey = 0;
 	}
 	
 	public void setPwState(boolean state){
@@ -191,6 +193,10 @@ public class DebugFrame extends JFrame{
 	
 	public byte canState(){
 		return canState;
+	}
+	
+	public char canKey(){
+		return canKey;
 	}
 	
 	private void addOmtcString(String s){

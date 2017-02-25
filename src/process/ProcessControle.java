@@ -11,11 +11,15 @@ public class ProcessControle {
 	//The Positioning-Layout of the Machine
 	public final MachineLayout machineLayout;
 	
+	//Commands to G-Code
 	private final IPCtoCNC ipcToCnc;
 	//The real CNC_Machine
 	private final Abstract_CNC cnc_Machine;
 	//A CNC-Simulator, for placement-Simulation
 	private final CNC_Simulation simulation;
+	
+	//Feeder Controle Unit (FCU)
+	private final FeederControle feeder;
 	
 	public final PartPlacement partPlacementsystem;
 	public MachinePCBview pcbView;
@@ -39,6 +43,8 @@ public class ProcessControle {
 		simulation = new CNC_Simulation();
 		
 		setup = new SetupControle(machineLayout);
+		
+		feeder = new FeederControle();
 	}
 	
 	public void process(){

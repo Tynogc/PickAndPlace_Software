@@ -7,6 +7,8 @@ public class StartUp {
 	private boolean spectator = false;
 	private boolean fullScreen = true;
 	
+	private boolean askLic;
+	
 	public StartUp(debug.DebugFrame f){
 		frame = f;
 	}
@@ -20,8 +22,10 @@ public class StartUp {
 	private void gtt(){
 		//debug.Debug.println("* Enter Password:");
 		//pw();
+		askLic = true;
 		debug.Debug.println("* Quick StartUp? [Y|n]");
 		if(question(true)) return;
+		askLic = false;
 		debug.Debug.println("* Full Screen? [Y|n]");
 		fullScreen = question(true);
 		debug.Debug.println("* Spectator Mode? [y|N]");
@@ -57,6 +61,12 @@ public class StartUp {
 		frame.setCheckState(true);
 		
 		while (true){
+			if(askLic){
+				if(frame.canKey() == 'l' || frame.canKey() == 'L'){
+					SeyprisMain.displayLicense();
+					askLic = false;
+				}
+			}
 			switch (frame.canState()) {
 			case 0:
 				try {

@@ -42,6 +42,8 @@ public class Debug {
 	
 	public static final int TEXT = 100;
 	
+	public static final int Z_NOLOG = 1111;
+	
 	public static final int sizeX = 500;
 	public static final int sizeY = 800;
 	
@@ -159,7 +161,7 @@ public class Debug {
 		if(fifo!=null && !b)
 			fifo.in("/C"+s+"%"+color);
 		
-		if(!b)
+		if(!b && color != Z_NOLOG)
 		theLineBefor+=s;
 		
 		lastThingIsProgressBar = false;
@@ -237,16 +239,19 @@ public class Debug {
 		}
 		char c = s.charAt(0);
 		if(c == '*' ||c == '/'){
+			if(color != Z_NOLOG)
 			doTimeStamp();
 		}else if(c == ' '){
+			if(color != Z_NOLOG)
 			doTimProg();
 		}else{
 			s = " "+s;
+			if(color != Z_NOLOG)
 			doTimProg();
 		}
 		
 		String kse = getPreString(color);
-		
+		if(color != Z_NOLOG){
 		try { 
 			writer = new PrintWriter(new FileWriter(logFilepath, true),true);
 			writer.println(kse+" "+s);
@@ -257,6 +262,7 @@ public class Debug {
 				writer.flush(); 
 				writer.close(); 
 			} 
+		}
 		}
 		print(s, color, true);
 		sema.release();
@@ -376,6 +382,8 @@ public class Debug {
 		case REMOTE: return new Color(188,167,237);
 		
 		case TEXT: return Color.white;
+		
+		case Z_NOLOG: return new Color(170,200,255);
 		}
 		return Color.darkGray;
 	}

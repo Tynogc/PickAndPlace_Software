@@ -72,8 +72,8 @@ public class SeyprisMain extends JPanel{
 		Fonts.createAllFonts();
 		
 		debug.Debug.println("* Starting Seypris "+VERSION);
-		debug.Debug.println("  This Program is under the GNU");
-		debug.Debug.println("  GENERAL PUBLIC LICENSE V.3");
+		debug.Debug.println("  (C) Sven T. Schneider");
+		debug.Debug.println("  For License-Information press 'L'", debug.Debug.Z_NOLOG);
 		
 		startUp = new StartUp(dbf);
 		startUp.doStartUp();
@@ -228,6 +228,12 @@ public class SeyprisMain extends JPanel{
 	
 	public static KeyListener getKL(){
 		return key;
+	}
+	
+	public static final void displayLicense(){
+		debug.Debug.println("/ This Program is under the GNU-", debug.Debug.Z_NOLOG);
+		debug.Debug.println("  GENERAL PUBLIC LICENSE V.3", debug.Debug.Z_NOLOG);
+		debug.Debug.println("  View LICENSE-File for additional Information", debug.Debug.Z_NOLOG);
 	}
 
 }

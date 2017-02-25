@@ -5,10 +5,10 @@ import cnc.Abstract_CNC;
 public class ComandProcessor {
 
 	/**
-	 * Processes Comand-Flow
+	 * Processes Command-Flow
 	 */
 	
-	private Abstract_CNC cnc;
+	private IPCtoCNC cnc;
 	
 	public ComandProcessor(){
 		
@@ -18,13 +18,8 @@ public class ComandProcessor {
 		
 	}
 	
-	public void setCNC(Abstract_CNC c){
+	public void setTranslator(IPCtoCNC c){
 		cnc = c;
-		debug.Debug.println("Changed command-CNC to ",debug.Debug.COM);
-		if(c.isSimulation())
-			debug.Debug.println(c.toString(),debug.Debug.MASSAGE);
-		else
-			debug.Debug.println(c.toString(),debug.Debug.TEXT);
 	}
 	
 }
